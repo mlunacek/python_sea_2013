@@ -1,0 +1,660 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Python for High Performance Computing</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/screen.css">
+	<script src="js/google-code-prettify/run_prettify.js"></script>
+	<link rel="stylesheet" href="css/style.css">
+	
+	<style>
+	body {
+	  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	  margin-left: auto;
+	  margin-right: auto;
+	}
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+	
+	</style>
+
+	
+	
+</head>
+<body class="list">
+	
+	<header class="caption">
+		<h1>Python for High Performance Computing</h1>
+		<p>Monte Lunacek</p>
+	</header>
+	
+	<section class="slide cover dark" id="Cover">
+		<div>
+		<h2>Python for High Performance Computing</h2>
+		<h3>Monte Lunacek</h3>
+		<p>Research Computing, University of Colorado <strong style="color:white"> Boulder</strong><p>
+	    </div>
+    </section>
+	
+
+
+<section class="slide">
+<div>
+<h2>University of Colorado</h2>
+<ul>
+<li>Some tightly-coupled MPI codes</li>
+<li>Many <strong>independent tasks</strong></li>
+<li>Diverse computing backgrounds<ul>
+<li>Geography</li>
+<li>Ecology and Evolutionary Biology</li>
+<li>Microbial Ecology</li>
+<li>Astronomy</li>
+<li>Geology</li>
+</ul>
+</li>
+<li>Range of computational experience</li>
+</ul>
+</div>
+</section>
+
+
+<section class="slide">
+<div>
+<h2>High Throughout Computing</h2>
+<ul>
+<li>Simulations<ul>
+<li>Monte Carlo </li>
+<li>Parameter scan</li>
+<li>Uncertainty Quantification</li>
+</ul>
+</li>
+<li>Parameter Optimization</li>
+<li>Data Analysis (MapReduce)</li>
+<li>Parallel workflows</li>
+</ul>
+</div>
+</section>
+
+
+<section class="slide">
+<div>
+<h2>Supercomputing Without the <strong>Pain</strong></h2>
+
+<ul>
+<li>Accessible to anyone with:<ul>
+<li>Simulation or analysis to run</li>
+<li>Desire to do it faster</li>
+</ul>
+</li>
+<li>Remove barriers to entry</li>
+<!-- <li>Not commercial codes<ul>
+<li>Fault-tolerance</li>
+<li>Built for serial execution</li>
+</ul> -->
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+<section class="slide">
+<div>
+<h2><strong>Success</strong> Stories</h2>
+
+<p>~500,000 simulations on ~7,000 cores with <a href="http://mpi4py.scipy.org/">mpi4py </a> </p>
+<p>Parameter optimization on ~100 cores with
+	<a href="https://code.google.com/p/scoop/"> Scoop </a>
+		and 
+	<a href="https://code.google.com/p/deap/"> DEAP </a>	
+	</p>
+	
+<p>Improved biological workflow with 
+	<a href="http://ipython.org/ipython-doc/dev/parallel/"> IPython Parallel </a></p>
+		
+<p>Wrapped an engineering simulation with 		
+	<a href="http://www.scipy.org/F2py"> f2py</a> and
+	<a href="http://ipython.org/ipython-doc/dev/parallel/"> IPython Parallel </a>
+
+<p>Packaged multiple MPI tasks with 
+	<a href="http://jinja.pocoo.org/docs/"> Jinja2 </a>
+
+<p>Benchmarking:
+<a href="http://mpi4py.scipy.org/">mpi4py </a>,	
+<a href="http://discoproject.org/"> pandas </a>,
+<a href="http://jinja.pocoo.org/docs/"> Jinja2 </a>,
+<a href="https://www.djangoproject.com/"> Django </a>
+
+<br>
+<br>
+<p>Working on <strong>MapReduce</strong> with 
+	<a href="https://code.google.com/p/scoop/"> Scoop </a>,
+	<a href="http://discoproject.org/"> disco </a>, and 
+	<a href="http://discoproject.org/"> pandas </a>
+</p>
+<p>Working on <strong>Workflow</strong> with 
+	<a href="http://networkx.github.com/"> NetworkX </a> and 
+	<a href="https://code.google.com/p/scoop/"> Scoop </a>
+</p>
+		
+</div>
+</section>
+
+
+<section class="slide">
+<div>
+<h2>Outline</h2>
+
+
+
+<ul>
+<li><a href="http://python.org">Python</a></li>
+<li>Ipython <a href="http://ipython.org/ipython-doc/dev/interactive/htmlnotebook.html">Notebook </a></li>
+<li>High Throughput Computing
+<ul>
+<li><a href="http://ipython.org/ipython-doc/dev/parallel/"> IPython Parallel </a></li>
+<li><a href="https://code.google.com/p/scoop/"> Scoop </a></li>
+<li><a href="http://mpi4py.scipy.org/">mpi4py </a></li>
+</ul>
+<li>Data Analysis with <a href="http://discoproject.org/"> pandas </a></li>
+<li>Conclude </li>
+</ul>
+
+</div>
+</section>
+
+<section class="slide sub">
+<div >
+<img src="img/monty-python.jpg" style="margin:30px auto;display:block; height:400px"  alt="some_text">	
+	
+<h2>What is Python?</h2>
+</div>
+</section>
+
+
+<section class="slide">
+<div>
+<h2>Python</h2>
+<ul>
+<li>Flexible, powerful programming language<ul>
+<li>Object oriented</li>
+<li>Runs everywhere</li>
+</ul>
+</li>
+<li>Easy, clean syntax</li>
+<li>Glue: Cython, F2py
+</li>
+<li>Large community of support<ul>
+<li>Consistent feel</li>
+</ul>
+</li>
+<li>Free as in <strong>free beer</strong></li>
+<li>Free as in <strong>free speech</strong></li>
+</ul>
+</div>
+</section>
+
+
+<section class="slide">
+<div>
+<h2>Packages for Computational Science</h2>
+<ul>
+<li><strong>python</strong>: the base language</li>
+<li><strong>numpy</strong>: arrays, fast operations on arrays</li>
+<li><strong>scipy</strong>: higher level computational routines </li>
+<li><strong>matplotlib</strong>: plotting</li>
+<li><strong>ipython</strong>: notebooks, flexible shell, and parallel</li>
+<li><strong>pandas</strong>: data analysis</li>
+</ul>
+</div>
+</section>
+
+
+<section class="slide">
+<div>
+<h2>What can you do with Python?</h2>
+<ul>
+<li>OS support: manage files and directories</li>
+<li>Glue existing applications</li>
+<li>LAPACK and BLAS: access powerful C and Fortran libraries</li>
+<li>Parallel</li>
+<li>Data Analysis</li>
+<li>Visualization</li>
+<li>GUI programming</li>
+<li>Scrape websites</li>
+<li>Build websites</li>
+<li><strong>Anything!</strong></li>
+</ul>
+</div>
+</section>
+
+
+<section class="slide">
+<div>
+<h2>Distributions</h2>
+<ul>
+<li><a href="http://www.enthought.com/products/epd.php">Enthought</a></li>
+<li><a href="http://www.pythonxy.com/">Python(x,y)</a></li>
+<li><a href="https://store.continuum.io/cshop/anaconda">Anaconda</a></li>
+</ul>
+
+<p>IPython terminal
+<pre class="prettyprint"><code>ipython --pylab	
+</code></pre>
+
+<p>IPython notebook
+<pre class="prettyprint"><code>ipython notebook --pylab=inline	
+</code></pre>
+
+</div>
+</section>
+
+
+<section class="slide sub">
+<div>
+
+<img src="img/notebook.png" style="margin-top:150px; margin-bottom: 20px; margin-left:auto; margin-right: auto;display:block;"  alt="some_text">		
+	
+<h2 style="margin-top:30px;">Notebook</h2>
+
+</div>
+</section>
+
+<section class="slide">
+<div>
+<iframe src="http://127.0.0.1:8888"></iframe>
+</div>
+</section>
+
+
+<section class="slide sub">
+<div>
+<img src="img/htc.png" style="margin:30px auto;display:block;"  alt="some_text">	
+
+<h2 style="text-align: center;">High Throughput Computing</h2>
+</div>
+</section>
+
+<section class="slide">
+<div>
+<h2>Bash</h2>
+<pre class="prettyprint"><code>count_base=0
+for i in {1..N}
+do
+  for j in {1..12}
+  do
+	  b=$(($count_base + $j))
+	  ./simulator -s 5 -t $b &
+	done
+  wait
+  count_base=$(( $count_base + $np))
+done
+</code></pre>
+
+<p> Limited to a <strong>single node</strong></p>
+</div>
+</section>
+
+<section class="slide">
+<div>
+<h2>pbsdsh</h2>
+
+<pre class="prettyprint"><code>#!/bin/bash
+PATH=$PBS_O_WORKDIR:$PBS_O_PATH
+TRIAL=$(($PBS_VNODENUM + $1))
+python ./simulator.py -s 5 -t $TRIAL
+</code></pre>
+
+<br>
+
+<pre class="prettyprint"><code>for i in {1..N}
+do
+  pbsdsh wrapper.sh $count
+  count=$(( $count + 12))
+done
+</code></pre>
+
+<p> A little <strong>painful</strong></p>
+</div>
+</section>
+
+<section class="slide">
+<div>
+<h2> A little <strong>inefficient</strong> </h2>
+
+<svg class='htcsvg' width="800" height="400"><g transform="translate(50,20)"><rect x="70" width="42.630350194552534" y="332.5" height="16.5" fill="#aaaadd"></rect><rect x="70" width="57.52529182879378" y="315" height="16.5" fill="#aaaadc"></rect><rect x="70" width="7.190661478599225" y="297.5" height="16.5" fill="#a9a9dc"></rect><rect x="70" width="34.41245136186771" y="280" height="16.5" fill="#a9a9db"></rect><rect x="70" width="58.55252918287937" y="262.5" height="16.5" fill="#a8a8db"></rect><rect x="70" width="39.03501945525292" y="245" height="16.5" fill="#a8a8da"></rect><rect x="70" width="6.163424124513625" y="227.5" height="16.5" fill="#a8a8da"></rect><rect x="70" width="11.813229571984436" y="210" height="16.5" fill="#a7a7d9"></rect><rect x="70" width="34.41245136186771" y="192.5" height="16.5" fill="#a7a7d8"></rect><rect x="70" width="31.844357976653697" y="175" height="16.5" fill="#a6a6d8"></rect><rect x="70" width="59.579766536964996" y="157.5" height="16.5" fill="#a6a6d7"></rect><rect x="70" width="7.190661478599225" y="140" height="16.5" fill="#a6a6d7"></rect><rect x="70" width="54.44357976653697" y="122.5" height="16.5" fill="#a5a5d6"></rect><rect x="70" width="7.704280155642024" y="105" height="16.5" fill="#a5a5d6"></rect><rect x="70" width="45.71206225680933" y="87.5" height="16.5" fill="#a4a4d5"></rect><rect x="70" width="29.789883268482498" y="70" height="16.5" fill="#a4a4d4"></rect><rect x="70" width="5.649805447470811" y="52.5" height="16.5" fill="#a3a3d4"></rect><rect x="70" width="50.33463035019456" y="35" height="16.5" fill="#a3a3d3"></rect><rect x="70" width="59.579766536964996" y="17.5" height="16.5" fill="#a3a3d3"></rect><rect x="70" width="32.8715953307393" y="0" height="16.5" fill="#a2a2d2"></rect><rect x="130.6070038910506" width="30.81712062256807" y="332.5" height="16.5" fill="#a2a2d2"></rect><rect x="130.60700389105057" width="29.789883268482498" y="315" height="16.5" fill="#a1a1d1"></rect><rect x="130.60700389105057" width="33.38521400778208" y="297.5" height="16.5" fill="#a1a1d0"></rect><rect x="130.6070038910506" width="39.548638132295736" y="280" height="16.5" fill="#a1a1d0"></rect><rect x="130.6070038910506" width="10.272373540856023" y="262.5" height="16.5" fill="#a0a0cf"></rect><rect x="130.6070038910506" width="34.926070038910495" y="245" height="16.5" fill="#a0a0cf"></rect><rect x="130.60700389105057" width="8.217898832684824" y="227.5" height="16.5" fill="#9f9fce"></rect><rect x="130.6070038910506" width="34.926070038910495" y="210" height="16.5" fill="#9f9fce"></rect><rect x="130.6070038910506" width="32.35797665369648" y="192.5" height="16.5" fill="#9f9fcd"></rect><rect x="130.6070038910506" width="22.08560311284046" y="175" height="16.5" fill="#9e9ecc"></rect><rect x="130.6070038910506" width="20.544747081712075" y="157.5" height="16.5" fill="#9e9ecc"></rect><rect x="130.60700389105057" width="57.52529182879377" y="140" height="16.5" fill="#9d9dcb"></rect><rect x="130.60700389105057" width="21.05836575875486" y="122.5" height="16.5" fill="#9d9dcb"></rect><rect x="130.60700389105057" width="49.82101167315173" y="105" height="16.5" fill="#9d9dca"></rect><rect x="130.6070038910506" width="52.38910505836574" y="87.5" height="16.5" fill="#9c9cca"></rect><rect x="130.6070038910506" width="47.76653696498053" y="70" height="16.5" fill="#9c9cc9"></rect><rect x="130.6070038910506" width="49.307392996108945" y="52.5" height="16.5" fill="#9b9bc9"></rect><rect x="130.60700389105057" width="17.463035019455248" y="35" height="16.5" fill="#9b9bc8"></rect><rect x="130.60700389105057" width="60.09338521400778" y="17.5" height="16.5" fill="#9b9bc7"></rect><rect x="130.60700389105057" width="6.163424124513625" y="0" height="16.5" fill="#9a9ac7"></rect><rect x="191.72762645914395" width="11.813229571984436" y="332.5" height="16.5" fill="#9a9ac6"></rect><rect x="191.72762645914395" width="52.90272373540856" y="315" height="16.5" fill="#9999c6"></rect><rect x="191.72762645914398" width="60.09338521400778" y="297.5" height="16.5" fill="#9999c5"></rect><rect x="191.72762645914398" width="20.03112840466926" y="280" height="16.5" fill="#9999c5"></rect><rect x="191.72762645914395" width="5.649805447470811" y="262.5" height="16.5" fill="#9898c4"></rect><rect x="191.72762645914398" width="19.00389105058366" y="245" height="16.5" fill="#9898c3"></rect><rect x="191.72762645914395" width="5.136186770427997" y="227.5" height="16.5" fill="#9797c3"></rect><rect x="191.72762645914398" width="9.758754863813238" y="210" height="16.5" fill="#9797c2"></rect><rect x="191.72762645914398" width="45.71206225680933" y="192.5" height="16.5" fill="#9696c2"></rect><rect x="191.72762645914398" width="13.354085603112821" y="175" height="16.5" fill="#9696c1"></rect><rect x="191.72762645914395" width="24.653696498054472" y="157.5" height="16.5" fill="#9696c1"></rect><rect x="191.72762645914398" width="29.789883268482498" y="140" height="16.5" fill="#9595c0"></rect><rect x="191.72762645914395" width="9.758754863813238" y="122.5" height="16.5" fill="#9595bf"></rect><rect x="191.72762645914395" width="27.73540856031127" y="105" height="16.5" fill="#9494bf"></rect><rect x="191.72762645914398" width="53.41634241245134" y="87.5" height="16.5" fill="#9494be"></rect><rect x="191.72762645914398" width="52.90272373540856" y="70" height="16.5" fill="#9494be"></rect><rect x="191.72762645914395" width="21.05836575875486" y="52.5" height="16.5" fill="#9393bd"></rect><rect x="191.72762645914398" width="39.03501945525289" y="35" height="16.5" fill="#9393bd"></rect><rect x="191.72762645914398" width="47.252918287937746" y="17.5" height="16.5" fill="#9292bc"></rect><rect x="191.72762645914398" width="34.926070038910495" y="0" height="16.5" fill="#9292bb"></rect><rect x="252.84824902723736" width="12.840466926070036" y="332.5" height="16.5" fill="#9292bb"></rect><rect x="252.84824902723736" width="11.299610894941651" y="315" height="16.5" fill="#9191ba"></rect><rect x="252.84824902723736" width="31.844357976653697" y="297.5" height="16.5" fill="#9191ba"></rect><rect x="252.84824902723736" width="45.71206225680933" y="280" height="16.5" fill="#9090b9"></rect><rect x="252.84824902723736" width="8.217898832684824" y="262.5" height="16.5" fill="#9090b9"></rect><rect x="252.84824902723736" width="54.957198443579756" y="245" height="16.5" fill="#9090b8"></rect><rect x="252.84824902723736" width="44.17120622568095" y="227.5" height="16.5" fill="#8f8fb7"></rect><rect x="252.84824902723736" width="50.3346303501946" y="210" height="16.5" fill="#8f8fb7"></rect><rect x="252.84824902723736" width="53.929961089494185" y="192.5" height="16.5" fill="#8e8eb6"></rect><rect x="252.84824902723733" width="52.90272373540856" y="175" height="16.5" fill="#8e8eb6"></rect><rect x="252.84824902723736" width="27.7354085603113" y="157.5" height="16.5" fill="#8e8eb5"></rect><rect x="252.84824902723736" width="6.677042801556439" y="140" height="16.5" fill="#8d8db5"></rect><rect x="252.84824902723733" width="26.708171206225728" y="122.5" height="16.5" fill="#8d8db4"></rect><rect x="252.84824902723733" width="32.87159533073927" y="105" height="16.5" fill="#8c8cb3"></rect><rect x="252.84824902723736" width="14.381322957198421" y="87.5" height="16.5" fill="#8c8cb3"></rect><rect x="252.84824902723733" width="34.41245136186771" y="70" height="16.5" fill="#8b8bb2"></rect><rect x="252.84824902723736" width="34.926070038910524" y="52.5" height="16.5" fill="#8b8bb2"></rect><rect x="252.84824902723736" width="50.3346303501946" y="35" height="16.5" fill="#8b8bb1"></rect><rect x="252.84824902723736" width="5.649805447470811" y="17.5" height="16.5" fill="#8a8ab1"></rect><rect x="252.84824902723736" width="13.354085603112793" y="0" height="16.5" fill="#8a8ab0"></rect><rect x="308.8326848249027" width="59.579766536964996" y="332.5" height="16.5" fill="#8989af"></rect><rect x="308.8326848249027" width="60.09338521400781" y="315" height="16.5" fill="#8989af"></rect><rect x="308.8326848249027" width="57.5252918287938" y="297.5" height="16.5" fill="#8989ae"></rect><rect x="308.8326848249027" width="6.677042801556468" y="280" height="16.5" fill="#8888ae"></rect><rect x="308.8326848249027" width="30.817120622568154" y="262.5" height="16.5" fill="#8888ad"></rect><rect x="308.8326848249027" width="27.735408560311328" y="245" height="16.5" fill="#8787ad"></rect><rect x="308.8326848249027" width="58.03891050583661" y="227.5" height="16.5" fill="#8787ac"></rect><rect x="308.8326848249027" width="37.494163424124565" y="210" height="16.5" fill="#8787ab"></rect><rect x="308.8326848249027" width="28.762645914396956" y="192.5" height="16.5" fill="#8686ab"></rect><rect x="308.8326848249027" width="9.245136186770424" y="175" height="16.5" fill="#8686aa"></rect><rect x="308.8326848249027" width="58.552529182879425" y="157.5" height="16.5" fill="#8585aa"></rect><rect x="308.8326848249027" width="22.59922178988336" y="140" height="16.5" fill="#8585a9"></rect><rect x="308.8326848249027" width="33.38521400778217" y="122.5" height="16.5" fill="#8585a9"></rect><rect x="308.8326848249027" width="29.789883268482527" y="105" height="16.5" fill="#8484a8"></rect><rect x="308.8326848249027" width="12.840466926070121" y="87.5" height="16.5" fill="#8484a7"></rect><rect x="308.8326848249027" width="50.84824902723739" y="70" height="16.5" fill="#8383a7"></rect><rect x="308.8326848249027" width="50.84824902723739" y="52.5" height="16.5" fill="#8383a6"></rect><rect x="308.8326848249027" width="30.817120622568154" y="35" height="16.5" fill="#8383a6"></rect><rect x="308.8326848249027" width="52.38910505836577" y="17.5" height="16.5" fill="#8282a5"></rect><rect x="308.8326848249027" width="45.198443579766604" y="0" height="16.5" fill="#8282a5"></rect><rect x="369.9533073929961" width="44.17120622568092" y="332.5" height="16.5" fill="#8181a4"></rect><rect x="369.9533073929961" width="59.06614785992218" y="315" height="16.5" fill="#8181a3"></rect><rect x="369.9533073929961" width="31.84435797665367" y="297.5" height="16.5" fill="#8181a3"></rect><rect x="369.9533073929961" width="20.031128404669232" y="280" height="16.5" fill="#8080a2"></rect><rect x="369.9533073929961" width="24.140077821011687" y="262.5" height="16.5" fill="#8080a2"></rect><rect x="369.9533073929961" width="13.867704280155635" y="245" height="16.5" fill="#7f7fa1"></rect><rect x="369.9533073929961" width="26.7081712062257" y="227.5" height="16.5" fill="#7f7fa1"></rect><rect x="369.9533073929961" width="9.758754863813238" y="210" height="16.5" fill="#7e7ea0"></rect><rect x="369.9533073929961" width="42.11673151750972" y="192.5" height="16.5" fill="#7e7ea0"></rect><rect x="369.9533073929961" width="53.92996108949416" y="175" height="16.5" fill="#7e7e9f"></rect><rect x="369.9533073929961" width="31.330739299610855" y="157.5" height="16.5" fill="#7d7d9e"></rect><rect x="369.9533073929961" width="34.41245136186768" y="140" height="16.5" fill="#7d7d9e"></rect><rect x="369.9533073929961" width="10.272373540855995" y="122.5" height="16.5" fill="#7c7c9d"></rect><rect x="369.9533073929961" width="48.28015564202332" y="105" height="16.5" fill="#7c7c9d"></rect><rect x="369.9533073929961" width="6.677042801556411" y="87.5" height="16.5" fill="#7c7c9c"></rect><rect x="369.9533073929961" width="40.575875486381335" y="70" height="16.5" fill="#7b7b9c"></rect><rect x="369.9533073929961" width="54.443579766536914" y="52.5" height="16.5" fill="#7b7b9b"></rect><rect x="369.9533073929961" width="27.73540856031127" y="35" height="16.5" fill="#7a7a9a"></rect><rect x="369.9533073929961" width="50.334630350194516" y="17.5" height="16.5" fill="#7a7a9a"></rect><rect x="369.9533073929961" width="50.84824902723733" y="0" height="16.5" fill="#7a7a99"></rect><rect x="430.04669260700393" width="40.06225680933852" y="332.5" height="16.5" fill="#797999"></rect><rect x="430.04669260700393" width="19.517509727626475" y="315" height="16.5" fill="#797998"></rect><rect x="430.04669260700393" width="57.01167315175093" y="297.5" height="16.5" fill="#787898"></rect><rect x="430.04669260700393" width="7.190661478599168" y="280" height="16.5" fill="#787897"></rect><rect x="430.04669260700393" width="6.677042801556411" y="262.5" height="16.5" fill="#787896"></rect><rect x="430.04669260700393" width="20.544747081712046" y="245" height="16.5" fill="#777796"></rect><rect x="430.04669260700393" width="51.361867704280144" y="227.5" height="16.5" fill="#777795"></rect><rect x="430.04669260700393" width="19.517509727626475" y="210" height="16.5" fill="#767695"></rect><rect x="430.04669260700393" width="17.463035019455162" y="192.5" height="16.5" fill="#767694"></rect><rect x="430.04669260700393" width="41.603112840466906" y="175" height="16.5" fill="#767694"></rect><rect x="430.04669260700393" width="51.361867704280144" y="157.5" height="16.5" fill="#757593"></rect><rect x="430.04669260700393" width="10.272373540855995" y="140" height="16.5" fill="#757592"></rect><rect x="430.04669260700393" width="43.657587548638105" y="122.5" height="16.5" fill="#747492"></rect><rect x="430.04669260700393" width="13.354085603112765" y="105" height="16.5" fill="#747491"></rect><rect x="430.04669260700393" width="8.217898832684796" y="87.5" height="16.5" fill="#747491"></rect><rect x="430.04669260700393" width="51.8754863813229" y="70" height="16.5" fill="#737390"></rect><rect x="430.04669260700393" width="13.867704280155579" y="52.5" height="16.5" fill="#737390"></rect><rect x="430.04669260700393" width="28.762645914396842" y="35" height="16.5" fill="#72728f"></rect><rect x="430.04669260700393" width="13.867704280155579" y="17.5" height="16.5" fill="#72728e"></rect><rect x="430.04669260700393" width="13.354085603112765" y="0" height="16.5" fill="#71718e"></rect><rect x="488.08560311284043" width="49.307392996109" y="332.5" height="16.5" fill="#71718d"></rect><rect x="488.08560311284043" width="46.739299610895046" y="315" height="16.5" fill="#71718d"></rect><rect x="488.08560311284043" width="19.517509727626475" y="297.5" height="16.5" fill="#70708c"></rect><rect x="488.08560311284043" width="52.38910505836577" y="280" height="16.5" fill="#70708c"></rect><rect x="488.08560311284043" width="57.01167315175098" y="262.5" height="16.5" fill="#6f6f8b"></rect><rect x="488.08560311284043" width="27.22178988326857" y="245" height="16.5" fill="#6f6f8a"></rect><rect x="488.08560311284043" width="58.03891050583661" y="227.5" height="16.5" fill="#6f6f8a"></rect><rect x="488.08560311284043" width="17.463035019455276" y="210" height="16.5" fill="#6e6e89"></rect><rect x="488.08560311284043" width="6.677042801556468" y="192.5" height="16.5" fill="#6e6e89"></rect><rect x="488.08560311284043" width="13.867704280155692" y="175" height="16.5" fill="#6d6d88"></rect><rect x="488.08560311284043" width="21.05836575875486" y="157.5" height="16.5" fill="#6d6d88"></rect><rect x="488.08560311284043" width="11.813229571984493" y="140" height="16.5" fill="#6d6d87"></rect><rect x="488.08560311284043" width="61.634241245136195" y="122.5" height="16.5" fill="#6c6c86"></rect><rect x="488.08560311284043" width="28.2490272373542" y="105" height="16.5" fill="#6c6c86"></rect><rect x="488.08560311284043" width="57.01167315175098" y="87.5" height="16.5" fill="#6b6b85"></rect><rect x="488.08560311284043" width="18.490272373540904" y="70" height="16.5" fill="#6b6b85"></rect><rect x="488.08560311284043" width="8.731517509727666" y="52.5" height="16.5" fill="#6b6b84"></rect><rect x="488.08560311284043" width="20.03112840466929" y="35" height="16.5" fill="#6a6a84"></rect><rect x="488.08560311284043" width="14.381322957198506" y="17.5" height="16.5" fill="#6a6a83"></rect><rect x="488.08560311284043" width="38.00778210116732" y="0" height="16.5" fill="#696982"></rect><rect x="550.7470817120623" width="36.46692607003888" y="332.5" height="16.5" fill="#696982"></rect><rect x="550.7470817120623" width="22.59922178988336" y="315" height="16.5" fill="#696981"></rect><rect x="550.7470817120623" width="44.68482490272379" y="297.5" height="16.5" fill="#686881"></rect><rect x="550.7470817120623" width="39.54863813229565" y="280" height="16.5" fill="#686880"></rect><rect x="550.7470817120623" width="50.33463035019463" y="262.5" height="16.5" fill="#676780"></rect><rect x="550.7470817120623" width="57.01167315175098" y="245" height="16.5" fill="#67677f"></rect><rect x="550.7470817120623" width="27.221789883268457" y="227.5" height="16.5" fill="#66667e"></rect><rect x="550.7470817120623" width="53.92996108949421" y="210" height="16.5" fill="#66667e"></rect><rect x="550.7470817120623" width="35.95330739299607" y="192.5" height="16.5" fill="#66667d"></rect><rect x="550.7470817120623" width="50.84824902723733" y="175" height="16.5" fill="#65657d"></rect><rect x="550.7470817120623" width="7.190661478599168" y="157.5" height="16.5" fill="#65657c"></rect><rect x="550.7470817120623" width="31.84435797665367" y="140" height="16.5" fill="#64647c"></rect><rect x="550.7470817120623" width="13.867704280155635" y="122.5" height="16.5" fill="#64647b"></rect><rect x="550.7470817120623" width="21.058365758754917" y="105" height="16.5" fill="#64647a"></rect><rect x="550.7470817120623" width="31.84435797665367" y="87.5" height="16.5" fill="#63637a"></rect><rect x="550.7470817120623" width="37.49416342412451" y="70" height="16.5" fill="#636379"></rect><rect x="550.7470817120623" width="28.7626459143969" y="52.5" height="16.5" fill="#626279"></rect><rect x="550.7470817120623" width="45.198443579766604" y="35" height="16.5" fill="#626278"></rect><rect x="550.7470817120623" width="8.217898832684796" y="17.5" height="16.5" fill="#626278"></rect><rect x="550.7470817120623" width="57.5252918287938" y="0" height="16.5" fill="#616177"></rect><rect x="609.2996108949417" width="6.677042801556468" y="332.5" height="16.5" fill="#616177"></rect><rect x="609.2996108949417" width="19.00389105058366" y="315" height="16.5" fill="#606076"></rect><rect x="609.2996108949417" width="10.272373540856051" y="297.5" height="16.5" fill="#606075"></rect><rect x="609.2996108949417" width="22.08560311284043" y="280" height="16.5" fill="#606075"></rect><rect x="609.2996108949417" width="53.416342412451286" y="262.5" height="16.5" fill="#5f5f74"></rect><rect x="609.2996108949417" width="51.361867704280144" y="245" height="16.5" fill="#5f5f74"></rect><rect x="609.2996108949417" width="44.171206225680976" y="227.5" height="16.5" fill="#5e5e73"></rect><rect x="609.2996108949417" width="57.525291828793684" y="210" height="16.5" fill="#5e5e73"></rect><rect x="609.2996108949417" width="61.12062256809338" y="192.5" height="16.5" fill="#5e5e72"></rect><rect x="609.2996108949417" width="23.11284046692606" y="175" height="16.5" fill="#5d5d71"></rect><rect x="609.2996108949417" width="35.43968871595325" y="157.5" height="16.5" fill="#5d5d71"></rect><rect x="609.2996108949417" width="21.058365758754803" y="140" height="16.5" fill="#5c5c70"></rect><rect x="609.2996108949417" width="28.7626459143969" y="122.5" height="16.5" fill="#5c5c70"></rect><rect x="609.2996108949417" width="36.980544747081694" y="105" height="16.5" fill="#5c5c6f"></rect><rect x="609.2996108949417" width="22.599221789883245" y="87.5" height="16.5" fill="#5b5b6f"></rect><rect x="609.2996108949417" width="26.708171206225643" y="70" height="16.5" fill="#5b5b6e"></rect><rect x="609.2996108949417" width="29.276264591439713" y="52.5" height="16.5" fill="#5a5a6d"></rect><rect x="609.2996108949417" width="25.68093385214013" y="35" height="16.5" fill="#5a5a6d"></rect><rect x="609.2996108949417" width="42.11673151750972" y="17.5" height="16.5" fill="#59596c"></rect><rect x="609.2996108949417" width="6.163424124513654" y="0" height="16.5" fill="#59596c"></rect><rect x="671.4474708171206" width="21.57198443579773" y="332.5" height="16.5" fill="#59596b"></rect><rect x="671.4474708171206" width="58.552529182879425" y="315" height="16.5" fill="#58586b"></rect><rect x="671.4474708171206" width="38.521400778210136" y="297.5" height="16.5" fill="#58586a"></rect><rect x="671.4474708171206" width="38.521400778210136" y="280" height="16.5" fill="#575769"></rect><rect x="671.4474708171206" width="29.789883268482527" y="262.5" height="16.5" fill="#575769"></rect><rect x="671.4474708171206" width="23.112840466926173" y="245" height="16.5" fill="#575768"></rect><rect x="671.4474708171206" width="53.92996108949421" y="227.5" height="16.5" fill="#565668"></rect><rect x="671.4474708171206" width="9.758754863813351" y="210" height="16.5" fill="#565667"></rect><rect x="671.4474708171206" width="41.089494163424206" y="192.5" height="16.5" fill="#555567"></rect><rect x="671.4474708171206" width="50.33463035019463" y="175" height="16.5" fill="#555566"></rect><text x="30" y="340.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0000</text><text x="30" y="323.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0001</text><text x="30" y="305.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0002</text><text x="30" y="288.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0003</text><text x="30" y="270.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0004</text><text x="30" y="253.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0005</text><text x="30" y="235.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0006</text><text x="30" y="218.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0007</text><text x="30" y="200.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0008</text><text x="30" y="183.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0009</text><text x="30" y="165.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0010</text><text x="30" y="148.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0011</text><text x="30" y="130.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0012</text><text x="30" y="113.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0013</text><text x="30" y="95.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0014</text><text x="30" y="78.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0015</text><text x="30" y="60.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0016</text><text x="30" y="43.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0017</text><text x="30" y="25.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0018</text><text x="30" y="8.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0019</text><g class="x axis" transform="translate(0,350)"><g class="tick major" style="opacity: 1;" transform="translate(223.05836575875486,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:05</text></g><g class="tick major" style="opacity: 1;" transform="translate(377.14396887159535,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:10</text></g><g class="tick major" style="opacity: 1;" transform="translate(531.2295719844358,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:15</text></g><g class="tick major" style="opacity: 1;" transform="translate(685.3151750972763,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:20</text></g><path class="domain" d="M70,6V0H730V6"></path></g></g></svg>
+</div>
+</section>
+
+<section class="slide">
+<div>
+<h2>Objective Function</h2>
+
+<pre class="prettyprint"><code>def simulation(x):
+   value = x*x + 10
+   return value
+</code></pre>	
+
+<p> The functions name is <strong>simulation</strong></p>
+</div>
+</section>
+
+
+<section class="slide">
+<div>
+<h2>Multiprocessing</h2>
+
+<p> Import
+<pre class="prettyprint"><code>from multiprocessing import Pool</code></pre>	
+
+<p> Map the values</p>
+<pre class="prettyprint"><code>if __name__ == '__main__':
+	
+   pool = Pool(12)  # workers  
+   data = range(200) # tasks
+   
+   results = pool.map(simulation, data)
+</code></pre>
+
+<p>Great for single node</p>
+<p>Python's <strong>threading</strong> library</p>
+
+</div>
+</section>
+
+<section class="slide">
+<div>
+<h2>Scoop</h2>
+
+<p> Import
+<pre class="prettyprint"><code>from scoop import futures</code></pre>	
+
+<p> Map the values</p>
+<pre class="prettyprint"><code>if __name__ == '__main__':
+	
+   data = range(200) # tasks
+   results = futures.map(simulation, data)
+</code></pre>
+
+<p>Launch</p>
+<pre class="prettyprint"><code>python -m scoop filename.py </code></pre>	
+
+<p><strong>Efficient</strong> startup!</p>
+
+</div>
+</section>
+
+
+<section class="slide">
+<div>
+<h2>IPython Parallel</h2>
+
+<pre class="prettyprint"><code>from IPython.parallel import Client, require</code></pre>	
+
+<p> Map the values</p>
+<pre class="prettyprint"><code>if __name__ == '__main__':
+	
+   data = range(200) # tasks
+   rc = Client(profile='mpi')
+   lview = rc.load_balanced_view() 
+   
+   results = lview.map(simulation, data)
+   results.wait()
+</code></pre>
+
+</div>
+</section>
+
+<section class="slide">
+<div>
+<h2> Compare </h2>
+
+<pre class="prettyprint"><code>
+results = pool.map(simulation, data)
+</code></pre>
+
+<pre class="prettyprint"><code>
+results = futures.map(simulation, data)
+</code></pre>
+
+<pre class="prettyprint"><code>
+results = lview.map(simulation, data)
+</code></pre>
+
+<p>It's the way you create the <strong>object.map()</strong> that separates these methods.</p>
+
+</div>
+</section>	
+
+<section class="slide">
+<div>
+<h2> Compare </h2>
+
+<p>Good</p>
+<table class="table table-bordered">
+	<tr class="success">
+	    <td>IPython</td>
+	    <td>Fault-tolerance</td>
+	</tr>
+	<tr class="success">
+	    <td>IPython</td>
+	    <td>Schedule</td>
+	</tr>
+	<tr class="success">
+	    <td>IPython</td>
+	    <td>Interactive</td>
+	</tr>
+	<tr class="success">
+	    <td>Scoop</td>
+	    <td>Efficient launch</td>
+	</tr>
+	<tr class="success">
+	    <td>Multiprocessing</td>
+	    <td>Included in the standard Library</td>
+	</tr>
+</table>
+
+<p>Needs work</p>
+<table class="table table-bordered">
+	<tr class="warning">
+	    <td>All</td>
+	    <td>Scaling unknown</td>
+	</tr>
+	<tr class="error">
+	    <td>IPython</td>
+	    <td>Launcher (configuration)</td>
+	</tr>
+	<tr class="error">
+	    <td>Scoop and MP</td>
+	    <td>__main__</td>
+	</tr>
+	<tr class="error">
+	    <td>Scoop</td>
+	    <td>Schedule</td>
+	</tr>
+	<tr class="error">
+	    <td>Multiprocessing</td>
+	    <td>One node (kind of)</td>
+	</tr>
+</table>
+
+</div>
+</section>	
+
+<section class="slide">
+<div>
+<h2>Scheduling: <strong>Bash</strong> </h2>
+
+<svg class='htcsvg' width="800" height="400"><g transform="translate(50,20)"><rect x="70" width="42.630350194552534" y="332.5" height="16.5" fill="#aaaadd"></rect><rect x="70" width="57.52529182879378" y="315" height="16.5" fill="#aaaadc"></rect><rect x="70" width="7.190661478599225" y="297.5" height="16.5" fill="#a9a9dc"></rect><rect x="70" width="34.41245136186771" y="280" height="16.5" fill="#a9a9db"></rect><rect x="70" width="58.55252918287937" y="262.5" height="16.5" fill="#a8a8db"></rect><rect x="70" width="39.03501945525292" y="245" height="16.5" fill="#a8a8da"></rect><rect x="70" width="6.163424124513625" y="227.5" height="16.5" fill="#a8a8da"></rect><rect x="70" width="11.813229571984436" y="210" height="16.5" fill="#a7a7d9"></rect><rect x="70" width="34.41245136186771" y="192.5" height="16.5" fill="#a7a7d8"></rect><rect x="70" width="31.844357976653697" y="175" height="16.5" fill="#a6a6d8"></rect><rect x="70" width="59.579766536964996" y="157.5" height="16.5" fill="#a6a6d7"></rect><rect x="70" width="7.190661478599225" y="140" height="16.5" fill="#a6a6d7"></rect><rect x="70" width="54.44357976653697" y="122.5" height="16.5" fill="#a5a5d6"></rect><rect x="70" width="7.704280155642024" y="105" height="16.5" fill="#a5a5d6"></rect><rect x="70" width="45.71206225680933" y="87.5" height="16.5" fill="#a4a4d5"></rect><rect x="70" width="29.789883268482498" y="70" height="16.5" fill="#a4a4d4"></rect><rect x="70" width="5.649805447470811" y="52.5" height="16.5" fill="#a3a3d4"></rect><rect x="70" width="50.33463035019456" y="35" height="16.5" fill="#a3a3d3"></rect><rect x="70" width="59.579766536964996" y="17.5" height="16.5" fill="#a3a3d3"></rect><rect x="70" width="32.8715953307393" y="0" height="16.5" fill="#a2a2d2"></rect><rect x="130.6070038910506" width="30.81712062256807" y="332.5" height="16.5" fill="#a2a2d2"></rect><rect x="130.60700389105057" width="29.789883268482498" y="315" height="16.5" fill="#a1a1d1"></rect><rect x="130.60700389105057" width="33.38521400778208" y="297.5" height="16.5" fill="#a1a1d0"></rect><rect x="130.6070038910506" width="39.548638132295736" y="280" height="16.5" fill="#a1a1d0"></rect><rect x="130.6070038910506" width="10.272373540856023" y="262.5" height="16.5" fill="#a0a0cf"></rect><rect x="130.6070038910506" width="34.926070038910495" y="245" height="16.5" fill="#a0a0cf"></rect><rect x="130.60700389105057" width="8.217898832684824" y="227.5" height="16.5" fill="#9f9fce"></rect><rect x="130.6070038910506" width="34.926070038910495" y="210" height="16.5" fill="#9f9fce"></rect><rect x="130.6070038910506" width="32.35797665369648" y="192.5" height="16.5" fill="#9f9fcd"></rect><rect x="130.6070038910506" width="22.08560311284046" y="175" height="16.5" fill="#9e9ecc"></rect><rect x="130.6070038910506" width="20.544747081712075" y="157.5" height="16.5" fill="#9e9ecc"></rect><rect x="130.60700389105057" width="57.52529182879377" y="140" height="16.5" fill="#9d9dcb"></rect><rect x="130.60700389105057" width="21.05836575875486" y="122.5" height="16.5" fill="#9d9dcb"></rect><rect x="130.60700389105057" width="49.82101167315173" y="105" height="16.5" fill="#9d9dca"></rect><rect x="130.6070038910506" width="52.38910505836574" y="87.5" height="16.5" fill="#9c9cca"></rect><rect x="130.6070038910506" width="47.76653696498053" y="70" height="16.5" fill="#9c9cc9"></rect><rect x="130.6070038910506" width="49.307392996108945" y="52.5" height="16.5" fill="#9b9bc9"></rect><rect x="130.60700389105057" width="17.463035019455248" y="35" height="16.5" fill="#9b9bc8"></rect><rect x="130.60700389105057" width="60.09338521400778" y="17.5" height="16.5" fill="#9b9bc7"></rect><rect x="130.60700389105057" width="6.163424124513625" y="0" height="16.5" fill="#9a9ac7"></rect><rect x="191.72762645914395" width="11.813229571984436" y="332.5" height="16.5" fill="#9a9ac6"></rect><rect x="191.72762645914395" width="52.90272373540856" y="315" height="16.5" fill="#9999c6"></rect><rect x="191.72762645914398" width="60.09338521400778" y="297.5" height="16.5" fill="#9999c5"></rect><rect x="191.72762645914398" width="20.03112840466926" y="280" height="16.5" fill="#9999c5"></rect><rect x="191.72762645914395" width="5.649805447470811" y="262.5" height="16.5" fill="#9898c4"></rect><rect x="191.72762645914398" width="19.00389105058366" y="245" height="16.5" fill="#9898c3"></rect><rect x="191.72762645914395" width="5.136186770427997" y="227.5" height="16.5" fill="#9797c3"></rect><rect x="191.72762645914398" width="9.758754863813238" y="210" height="16.5" fill="#9797c2"></rect><rect x="191.72762645914398" width="45.71206225680933" y="192.5" height="16.5" fill="#9696c2"></rect><rect x="191.72762645914398" width="13.354085603112821" y="175" height="16.5" fill="#9696c1"></rect><rect x="191.72762645914395" width="24.653696498054472" y="157.5" height="16.5" fill="#9696c1"></rect><rect x="191.72762645914398" width="29.789883268482498" y="140" height="16.5" fill="#9595c0"></rect><rect x="191.72762645914395" width="9.758754863813238" y="122.5" height="16.5" fill="#9595bf"></rect><rect x="191.72762645914395" width="27.73540856031127" y="105" height="16.5" fill="#9494bf"></rect><rect x="191.72762645914398" width="53.41634241245134" y="87.5" height="16.5" fill="#9494be"></rect><rect x="191.72762645914398" width="52.90272373540856" y="70" height="16.5" fill="#9494be"></rect><rect x="191.72762645914395" width="21.05836575875486" y="52.5" height="16.5" fill="#9393bd"></rect><rect x="191.72762645914398" width="39.03501945525289" y="35" height="16.5" fill="#9393bd"></rect><rect x="191.72762645914398" width="47.252918287937746" y="17.5" height="16.5" fill="#9292bc"></rect><rect x="191.72762645914398" width="34.926070038910495" y="0" height="16.5" fill="#9292bb"></rect><rect x="252.84824902723736" width="12.840466926070036" y="332.5" height="16.5" fill="#9292bb"></rect><rect x="252.84824902723736" width="11.299610894941651" y="315" height="16.5" fill="#9191ba"></rect><rect x="252.84824902723736" width="31.844357976653697" y="297.5" height="16.5" fill="#9191ba"></rect><rect x="252.84824902723736" width="45.71206225680933" y="280" height="16.5" fill="#9090b9"></rect><rect x="252.84824902723736" width="8.217898832684824" y="262.5" height="16.5" fill="#9090b9"></rect><rect x="252.84824902723736" width="54.957198443579756" y="245" height="16.5" fill="#9090b8"></rect><rect x="252.84824902723736" width="44.17120622568095" y="227.5" height="16.5" fill="#8f8fb7"></rect><rect x="252.84824902723736" width="50.3346303501946" y="210" height="16.5" fill="#8f8fb7"></rect><rect x="252.84824902723736" width="53.929961089494185" y="192.5" height="16.5" fill="#8e8eb6"></rect><rect x="252.84824902723733" width="52.90272373540856" y="175" height="16.5" fill="#8e8eb6"></rect><rect x="252.84824902723736" width="27.7354085603113" y="157.5" height="16.5" fill="#8e8eb5"></rect><rect x="252.84824902723736" width="6.677042801556439" y="140" height="16.5" fill="#8d8db5"></rect><rect x="252.84824902723733" width="26.708171206225728" y="122.5" height="16.5" fill="#8d8db4"></rect><rect x="252.84824902723733" width="32.87159533073927" y="105" height="16.5" fill="#8c8cb3"></rect><rect x="252.84824902723736" width="14.381322957198421" y="87.5" height="16.5" fill="#8c8cb3"></rect><rect x="252.84824902723733" width="34.41245136186771" y="70" height="16.5" fill="#8b8bb2"></rect><rect x="252.84824902723736" width="34.926070038910524" y="52.5" height="16.5" fill="#8b8bb2"></rect><rect x="252.84824902723736" width="50.3346303501946" y="35" height="16.5" fill="#8b8bb1"></rect><rect x="252.84824902723736" width="5.649805447470811" y="17.5" height="16.5" fill="#8a8ab1"></rect><rect x="252.84824902723736" width="13.354085603112793" y="0" height="16.5" fill="#8a8ab0"></rect><rect x="308.8326848249027" width="59.579766536964996" y="332.5" height="16.5" fill="#8989af"></rect><rect x="308.8326848249027" width="60.09338521400781" y="315" height="16.5" fill="#8989af"></rect><rect x="308.8326848249027" width="57.5252918287938" y="297.5" height="16.5" fill="#8989ae"></rect><rect x="308.8326848249027" width="6.677042801556468" y="280" height="16.5" fill="#8888ae"></rect><rect x="308.8326848249027" width="30.817120622568154" y="262.5" height="16.5" fill="#8888ad"></rect><rect x="308.8326848249027" width="27.735408560311328" y="245" height="16.5" fill="#8787ad"></rect><rect x="308.8326848249027" width="58.03891050583661" y="227.5" height="16.5" fill="#8787ac"></rect><rect x="308.8326848249027" width="37.494163424124565" y="210" height="16.5" fill="#8787ab"></rect><rect x="308.8326848249027" width="28.762645914396956" y="192.5" height="16.5" fill="#8686ab"></rect><rect x="308.8326848249027" width="9.245136186770424" y="175" height="16.5" fill="#8686aa"></rect><rect x="308.8326848249027" width="58.552529182879425" y="157.5" height="16.5" fill="#8585aa"></rect><rect x="308.8326848249027" width="22.59922178988336" y="140" height="16.5" fill="#8585a9"></rect><rect x="308.8326848249027" width="33.38521400778217" y="122.5" height="16.5" fill="#8585a9"></rect><rect x="308.8326848249027" width="29.789883268482527" y="105" height="16.5" fill="#8484a8"></rect><rect x="308.8326848249027" width="12.840466926070121" y="87.5" height="16.5" fill="#8484a7"></rect><rect x="308.8326848249027" width="50.84824902723739" y="70" height="16.5" fill="#8383a7"></rect><rect x="308.8326848249027" width="50.84824902723739" y="52.5" height="16.5" fill="#8383a6"></rect><rect x="308.8326848249027" width="30.817120622568154" y="35" height="16.5" fill="#8383a6"></rect><rect x="308.8326848249027" width="52.38910505836577" y="17.5" height="16.5" fill="#8282a5"></rect><rect x="308.8326848249027" width="45.198443579766604" y="0" height="16.5" fill="#8282a5"></rect><rect x="369.9533073929961" width="44.17120622568092" y="332.5" height="16.5" fill="#8181a4"></rect><rect x="369.9533073929961" width="59.06614785992218" y="315" height="16.5" fill="#8181a3"></rect><rect x="369.9533073929961" width="31.84435797665367" y="297.5" height="16.5" fill="#8181a3"></rect><rect x="369.9533073929961" width="20.031128404669232" y="280" height="16.5" fill="#8080a2"></rect><rect x="369.9533073929961" width="24.140077821011687" y="262.5" height="16.5" fill="#8080a2"></rect><rect x="369.9533073929961" width="13.867704280155635" y="245" height="16.5" fill="#7f7fa1"></rect><rect x="369.9533073929961" width="26.7081712062257" y="227.5" height="16.5" fill="#7f7fa1"></rect><rect x="369.9533073929961" width="9.758754863813238" y="210" height="16.5" fill="#7e7ea0"></rect><rect x="369.9533073929961" width="42.11673151750972" y="192.5" height="16.5" fill="#7e7ea0"></rect><rect x="369.9533073929961" width="53.92996108949416" y="175" height="16.5" fill="#7e7e9f"></rect><rect x="369.9533073929961" width="31.330739299610855" y="157.5" height="16.5" fill="#7d7d9e"></rect><rect x="369.9533073929961" width="34.41245136186768" y="140" height="16.5" fill="#7d7d9e"></rect><rect x="369.9533073929961" width="10.272373540855995" y="122.5" height="16.5" fill="#7c7c9d"></rect><rect x="369.9533073929961" width="48.28015564202332" y="105" height="16.5" fill="#7c7c9d"></rect><rect x="369.9533073929961" width="6.677042801556411" y="87.5" height="16.5" fill="#7c7c9c"></rect><rect x="369.9533073929961" width="40.575875486381335" y="70" height="16.5" fill="#7b7b9c"></rect><rect x="369.9533073929961" width="54.443579766536914" y="52.5" height="16.5" fill="#7b7b9b"></rect><rect x="369.9533073929961" width="27.73540856031127" y="35" height="16.5" fill="#7a7a9a"></rect><rect x="369.9533073929961" width="50.334630350194516" y="17.5" height="16.5" fill="#7a7a9a"></rect><rect x="369.9533073929961" width="50.84824902723733" y="0" height="16.5" fill="#7a7a99"></rect><rect x="430.04669260700393" width="40.06225680933852" y="332.5" height="16.5" fill="#797999"></rect><rect x="430.04669260700393" width="19.517509727626475" y="315" height="16.5" fill="#797998"></rect><rect x="430.04669260700393" width="57.01167315175093" y="297.5" height="16.5" fill="#787898"></rect><rect x="430.04669260700393" width="7.190661478599168" y="280" height="16.5" fill="#787897"></rect><rect x="430.04669260700393" width="6.677042801556411" y="262.5" height="16.5" fill="#787896"></rect><rect x="430.04669260700393" width="20.544747081712046" y="245" height="16.5" fill="#777796"></rect><rect x="430.04669260700393" width="51.361867704280144" y="227.5" height="16.5" fill="#777795"></rect><rect x="430.04669260700393" width="19.517509727626475" y="210" height="16.5" fill="#767695"></rect><rect x="430.04669260700393" width="17.463035019455162" y="192.5" height="16.5" fill="#767694"></rect><rect x="430.04669260700393" width="41.603112840466906" y="175" height="16.5" fill="#767694"></rect><rect x="430.04669260700393" width="51.361867704280144" y="157.5" height="16.5" fill="#757593"></rect><rect x="430.04669260700393" width="10.272373540855995" y="140" height="16.5" fill="#757592"></rect><rect x="430.04669260700393" width="43.657587548638105" y="122.5" height="16.5" fill="#747492"></rect><rect x="430.04669260700393" width="13.354085603112765" y="105" height="16.5" fill="#747491"></rect><rect x="430.04669260700393" width="8.217898832684796" y="87.5" height="16.5" fill="#747491"></rect><rect x="430.04669260700393" width="51.8754863813229" y="70" height="16.5" fill="#737390"></rect><rect x="430.04669260700393" width="13.867704280155579" y="52.5" height="16.5" fill="#737390"></rect><rect x="430.04669260700393" width="28.762645914396842" y="35" height="16.5" fill="#72728f"></rect><rect x="430.04669260700393" width="13.867704280155579" y="17.5" height="16.5" fill="#72728e"></rect><rect x="430.04669260700393" width="13.354085603112765" y="0" height="16.5" fill="#71718e"></rect><rect x="488.08560311284043" width="49.307392996109" y="332.5" height="16.5" fill="#71718d"></rect><rect x="488.08560311284043" width="46.739299610895046" y="315" height="16.5" fill="#71718d"></rect><rect x="488.08560311284043" width="19.517509727626475" y="297.5" height="16.5" fill="#70708c"></rect><rect x="488.08560311284043" width="52.38910505836577" y="280" height="16.5" fill="#70708c"></rect><rect x="488.08560311284043" width="57.01167315175098" y="262.5" height="16.5" fill="#6f6f8b"></rect><rect x="488.08560311284043" width="27.22178988326857" y="245" height="16.5" fill="#6f6f8a"></rect><rect x="488.08560311284043" width="58.03891050583661" y="227.5" height="16.5" fill="#6f6f8a"></rect><rect x="488.08560311284043" width="17.463035019455276" y="210" height="16.5" fill="#6e6e89"></rect><rect x="488.08560311284043" width="6.677042801556468" y="192.5" height="16.5" fill="#6e6e89"></rect><rect x="488.08560311284043" width="13.867704280155692" y="175" height="16.5" fill="#6d6d88"></rect><rect x="488.08560311284043" width="21.05836575875486" y="157.5" height="16.5" fill="#6d6d88"></rect><rect x="488.08560311284043" width="11.813229571984493" y="140" height="16.5" fill="#6d6d87"></rect><rect x="488.08560311284043" width="61.634241245136195" y="122.5" height="16.5" fill="#6c6c86"></rect><rect x="488.08560311284043" width="28.2490272373542" y="105" height="16.5" fill="#6c6c86"></rect><rect x="488.08560311284043" width="57.01167315175098" y="87.5" height="16.5" fill="#6b6b85"></rect><rect x="488.08560311284043" width="18.490272373540904" y="70" height="16.5" fill="#6b6b85"></rect><rect x="488.08560311284043" width="8.731517509727666" y="52.5" height="16.5" fill="#6b6b84"></rect><rect x="488.08560311284043" width="20.03112840466929" y="35" height="16.5" fill="#6a6a84"></rect><rect x="488.08560311284043" width="14.381322957198506" y="17.5" height="16.5" fill="#6a6a83"></rect><rect x="488.08560311284043" width="38.00778210116732" y="0" height="16.5" fill="#696982"></rect><rect x="550.7470817120623" width="36.46692607003888" y="332.5" height="16.5" fill="#696982"></rect><rect x="550.7470817120623" width="22.59922178988336" y="315" height="16.5" fill="#696981"></rect><rect x="550.7470817120623" width="44.68482490272379" y="297.5" height="16.5" fill="#686881"></rect><rect x="550.7470817120623" width="39.54863813229565" y="280" height="16.5" fill="#686880"></rect><rect x="550.7470817120623" width="50.33463035019463" y="262.5" height="16.5" fill="#676780"></rect><rect x="550.7470817120623" width="57.01167315175098" y="245" height="16.5" fill="#67677f"></rect><rect x="550.7470817120623" width="27.221789883268457" y="227.5" height="16.5" fill="#66667e"></rect><rect x="550.7470817120623" width="53.92996108949421" y="210" height="16.5" fill="#66667e"></rect><rect x="550.7470817120623" width="35.95330739299607" y="192.5" height="16.5" fill="#66667d"></rect><rect x="550.7470817120623" width="50.84824902723733" y="175" height="16.5" fill="#65657d"></rect><rect x="550.7470817120623" width="7.190661478599168" y="157.5" height="16.5" fill="#65657c"></rect><rect x="550.7470817120623" width="31.84435797665367" y="140" height="16.5" fill="#64647c"></rect><rect x="550.7470817120623" width="13.867704280155635" y="122.5" height="16.5" fill="#64647b"></rect><rect x="550.7470817120623" width="21.058365758754917" y="105" height="16.5" fill="#64647a"></rect><rect x="550.7470817120623" width="31.84435797665367" y="87.5" height="16.5" fill="#63637a"></rect><rect x="550.7470817120623" width="37.49416342412451" y="70" height="16.5" fill="#636379"></rect><rect x="550.7470817120623" width="28.7626459143969" y="52.5" height="16.5" fill="#626279"></rect><rect x="550.7470817120623" width="45.198443579766604" y="35" height="16.5" fill="#626278"></rect><rect x="550.7470817120623" width="8.217898832684796" y="17.5" height="16.5" fill="#626278"></rect><rect x="550.7470817120623" width="57.5252918287938" y="0" height="16.5" fill="#616177"></rect><rect x="609.2996108949417" width="6.677042801556468" y="332.5" height="16.5" fill="#616177"></rect><rect x="609.2996108949417" width="19.00389105058366" y="315" height="16.5" fill="#606076"></rect><rect x="609.2996108949417" width="10.272373540856051" y="297.5" height="16.5" fill="#606075"></rect><rect x="609.2996108949417" width="22.08560311284043" y="280" height="16.5" fill="#606075"></rect><rect x="609.2996108949417" width="53.416342412451286" y="262.5" height="16.5" fill="#5f5f74"></rect><rect x="609.2996108949417" width="51.361867704280144" y="245" height="16.5" fill="#5f5f74"></rect><rect x="609.2996108949417" width="44.171206225680976" y="227.5" height="16.5" fill="#5e5e73"></rect><rect x="609.2996108949417" width="57.525291828793684" y="210" height="16.5" fill="#5e5e73"></rect><rect x="609.2996108949417" width="61.12062256809338" y="192.5" height="16.5" fill="#5e5e72"></rect><rect x="609.2996108949417" width="23.11284046692606" y="175" height="16.5" fill="#5d5d71"></rect><rect x="609.2996108949417" width="35.43968871595325" y="157.5" height="16.5" fill="#5d5d71"></rect><rect x="609.2996108949417" width="21.058365758754803" y="140" height="16.5" fill="#5c5c70"></rect><rect x="609.2996108949417" width="28.7626459143969" y="122.5" height="16.5" fill="#5c5c70"></rect><rect x="609.2996108949417" width="36.980544747081694" y="105" height="16.5" fill="#5c5c6f"></rect><rect x="609.2996108949417" width="22.599221789883245" y="87.5" height="16.5" fill="#5b5b6f"></rect><rect x="609.2996108949417" width="26.708171206225643" y="70" height="16.5" fill="#5b5b6e"></rect><rect x="609.2996108949417" width="29.276264591439713" y="52.5" height="16.5" fill="#5a5a6d"></rect><rect x="609.2996108949417" width="25.68093385214013" y="35" height="16.5" fill="#5a5a6d"></rect><rect x="609.2996108949417" width="42.11673151750972" y="17.5" height="16.5" fill="#59596c"></rect><rect x="609.2996108949417" width="6.163424124513654" y="0" height="16.5" fill="#59596c"></rect><rect x="671.4474708171206" width="21.57198443579773" y="332.5" height="16.5" fill="#59596b"></rect><rect x="671.4474708171206" width="58.552529182879425" y="315" height="16.5" fill="#58586b"></rect><rect x="671.4474708171206" width="38.521400778210136" y="297.5" height="16.5" fill="#58586a"></rect><rect x="671.4474708171206" width="38.521400778210136" y="280" height="16.5" fill="#575769"></rect><rect x="671.4474708171206" width="29.789883268482527" y="262.5" height="16.5" fill="#575769"></rect><rect x="671.4474708171206" width="23.112840466926173" y="245" height="16.5" fill="#575768"></rect><rect x="671.4474708171206" width="53.92996108949421" y="227.5" height="16.5" fill="#565668"></rect><rect x="671.4474708171206" width="9.758754863813351" y="210" height="16.5" fill="#565667"></rect><rect x="671.4474708171206" width="41.089494163424206" y="192.5" height="16.5" fill="#555567"></rect><rect x="671.4474708171206" width="50.33463035019463" y="175" height="16.5" fill="#555566"></rect><text x="30" y="340.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0000</text><text x="30" y="323.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0001</text><text x="30" y="305.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0002</text><text x="30" y="288.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0003</text><text x="30" y="270.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0004</text><text x="30" y="253.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0005</text><text x="30" y="235.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0006</text><text x="30" y="218.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0007</text><text x="30" y="200.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0008</text><text x="30" y="183.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0009</text><text x="30" y="165.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0010</text><text x="30" y="148.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0011</text><text x="30" y="130.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0012</text><text x="30" y="113.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0013</text><text x="30" y="95.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0014</text><text x="30" y="78.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0015</text><text x="30" y="60.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0016</text><text x="30" y="43.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0017</text><text x="30" y="25.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0018</text><text x="30" y="8.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0019</text><g class="x axis" transform="translate(0,350)"><g class="tick major" style="opacity: 1;" transform="translate(223.05836575875486,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:05</text></g><g class="tick major" style="opacity: 1;" transform="translate(377.14396887159535,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:10</text></g><g class="tick major" style="opacity: 1;" transform="translate(531.2295719844358,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:15</text></g><g class="tick major" style="opacity: 1;" transform="translate(685.3151750972763,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:20</text></g><path class="domain" d="M70,6V0H730V6"></path></g></g></svg>
+</div>
+</section>
+
+<section class="slide">
+<div>
+<h2> Scheduling: <strong>Static</strong></h2>
+
+<svg class='htcsvg' width="800" height="400"><g transform="translate(50,20)"><rect x="70" width="42.56410256410257" y="332.5" height="16.5" fill="#aaaadd"></rect><rect x="113.58974358974359" width="57.948717948717956" y="332.5" height="16.5" fill="#aaaadc"></rect><rect x="172.5641025641026" width="7.179487179487154" y="332.5" height="16.5" fill="#a9a9dc"></rect><rect x="180.76923076923077" width="34.87179487179486" y="332.5" height="16.5" fill="#a9a9db"></rect><rect x="216.66666666666669" width="58.46153846153851" y="332.5" height="16.5" fill="#a8a8db"></rect><rect x="276.1538461538462" width="39.487179487179446" y="332.5" height="16.5" fill="#a8a8da"></rect><rect x="316.6666666666667" width="6.666666666666686" y="332.5" height="16.5" fill="#a8a8da"></rect><rect x="324.35897435897436" width="11.794871794871767" y="332.5" height="16.5" fill="#a7a7d9"></rect><rect x="337.1794871794872" width="34.358974358974365" y="332.5" height="16.5" fill="#a7a7d8"></rect><rect x="372.56410256410254" width="32.30769230769238" y="332.5" height="16.5" fill="#a6a6d8"></rect><rect x="405.8974358974359" width="59.4871794871795" y="332.5" height="16.5" fill="#a6a6d7"></rect><rect x="70" width="7.179487179487182" y="315" height="16.5" fill="#a6a6d7"></rect><rect x="78.2051282051282" width="54.358974358974365" y="315" height="16.5" fill="#a5a5d6"></rect><rect x="133.5897435897436" width="8.205128205128204" y="315" height="16.5" fill="#a5a5d6"></rect><rect x="142.82051282051282" width="45.641025641025635" y="315" height="16.5" fill="#a4a4d5"></rect><rect x="189.4871794871795" width="30.25641025641025" y="315" height="16.5" fill="#a4a4d4"></rect><rect x="220.76923076923077" width="6.15384615384616" y="315" height="16.5" fill="#a3a3d4"></rect><rect x="227.94871794871796" width="50.25641025641022" y="315" height="16.5" fill="#a3a3d3"></rect><rect x="279.2307692307693" width="59.99999999999994" y="315" height="16.5" fill="#a3a3d3"></rect><rect x="340.2564102564103" width="32.82051282051282" y="315" height="16.5" fill="#a2a2d2"></rect><rect x="374.10256410256414" width="30.769230769230774" y="315" height="16.5" fill="#a2a2d2"></rect><rect x="405.8974358974359" width="30.25641025641022" y="315" height="16.5" fill="#a1a1d1"></rect><rect x="70" width="32.82051282051282" y="297.5" height="16.5" fill="#a1a1d0"></rect><rect x="103.84615384615384" width="39.4871794871795" y="297.5" height="16.5" fill="#a1a1d0"></rect><rect x="144.35897435897436" width="10.769230769230774" y="297.5" height="16.5" fill="#a0a0cf"></rect><rect x="156.15384615384616" width="34.358974358974336" y="297.5" height="16.5" fill="#a0a0cf"></rect><rect x="191.53846153846155" width="8.205128205128204" y="297.5" height="16.5" fill="#9f9fce"></rect><rect x="200.76923076923077" width="34.87179487179489" y="297.5" height="16.5" fill="#9f9fce"></rect><rect x="236.66666666666669" width="32.30769230769232" y="297.5" height="16.5" fill="#9f9fcd"></rect><rect x="270" width="22.051282051282044" y="297.5" height="16.5" fill="#9e9ecc"></rect><rect x="293.0769230769231" width="20.512820512820497" y="297.5" height="16.5" fill="#9e9ecc"></rect><rect x="314.61538461538464" width="57.4358974358974" y="297.5" height="16.5" fill="#9d9dcb"></rect><rect x="373.0769230769231" width="21.025641025640994" y="297.5" height="16.5" fill="#9d9dcb"></rect><rect x="70" width="49.74358974358975" y="280" height="16.5" fill="#9d9dca"></rect><rect x="120.76923076923077" width="52.30769230769232" y="280" height="16.5" fill="#9c9cca"></rect><rect x="174.1025641025641" width="47.17948717948718" y="280" height="16.5" fill="#9c9cc9"></rect><rect x="222.30769230769232" width="49.230769230769226" y="280" height="16.5" fill="#9b9bc9"></rect><rect x="272.56410256410254" width="17.43589743589746" y="280" height="16.5" fill="#9b9bc8"></rect><rect x="291.02564102564105" width="60" y="280" height="16.5" fill="#9b9bc7"></rect><rect x="352.0512820512821" width="6.153846153846075" y="280" height="16.5" fill="#9a9ac7"></rect><rect x="359.2307692307693" width="12.307692307692264" y="280" height="16.5" fill="#9a9ac6"></rect><rect x="372.56410256410254" width="52.30769230769238" y="280" height="16.5" fill="#9999c6"></rect><rect x="425.8974358974359" width="60.5128205128205" y="280" height="16.5" fill="#9999c5"></rect><rect x="487.43589743589746" width="19.999999999999943" y="280" height="16.5" fill="#9999c5"></rect><rect x="70" width="5.128205128205124" y="262.5" height="16.5" fill="#9898c4"></rect><rect x="76.15384615384616" width="18.974358974358964" y="262.5" height="16.5" fill="#9898c3"></rect><rect x="96.15384615384616" width="5.641025641025635" y="262.5" height="16.5" fill="#9797c3"></rect><rect x="102.82051282051282" width="9.230769230769226" y="262.5" height="16.5" fill="#9797c2"></rect><rect x="113.07692307692308" width="45.64102564102565" y="262.5" height="16.5" fill="#9696c2"></rect><rect x="159.74358974358972" width="13.333333333333371" y="262.5" height="16.5" fill="#9696c1"></rect><rect x="174.1025641025641" width="25.12820512820514" y="262.5" height="16.5" fill="#9696c1"></rect><rect x="200.25641025641028" width="29.743589743589723" y="262.5" height="16.5" fill="#9595c0"></rect><rect x="231.02564102564105" width="9.743589743589723" y="262.5" height="16.5" fill="#9595bf"></rect><rect x="241.7948717948718" width="27.692307692307708" y="262.5" height="16.5" fill="#9494bf"></rect><rect x="270.51282051282055" width="53.333333333333314" y="262.5" height="16.5" fill="#9494be"></rect><rect x="70" width="52.82051282051282" y="245" height="16.5" fill="#9494be"></rect><rect x="123.84615384615384" width="20.512820512820525" y="245" height="16.5" fill="#9393bd"></rect><rect x="145.3846153846154" width="38.97435897435898" y="245" height="16.5" fill="#9393bd"></rect><rect x="185.38461538461542" width="47.179487179487154" y="245" height="16.5" fill="#9292bc"></rect><rect x="233.5897435897436" width="35.384615384615415" y="245" height="16.5" fill="#9292bb"></rect><rect x="270" width="12.307692307692378" y="245" height="16.5" fill="#9292bb"></rect><rect x="283.33333333333337" width="11.28205128205127" y="245" height="16.5" fill="#9191ba"></rect><rect x="295.64102564102564" width="31.794871794871824" y="245" height="16.5" fill="#9191ba"></rect><rect x="328.46153846153845" width="45.64102564102569" y="245" height="16.5" fill="#9090b9"></rect><rect x="375.12820512820514" width="8.205128205128176" y="245" height="16.5" fill="#9090b9"></rect><rect x="384.35897435897436" width="54.87179487179492" y="245" height="16.5" fill="#9090b8"></rect><rect x="70" width="43.58974358974359" y="227.5" height="16.5" fill="#8f8fb7"></rect><rect x="114.61538461538461" width="50.25641025641025" y="227.5" height="16.5" fill="#8f8fb7"></rect><rect x="165.8974358974359" width="53.333333333333314" y="227.5" height="16.5" fill="#8e8eb6"></rect><rect x="220.25641025641028" width="52.307692307692264" y="227.5" height="16.5" fill="#8e8eb6"></rect><rect x="273.5897435897436" width="27.69230769230768" y="227.5" height="16.5" fill="#8e8eb5"></rect><rect x="302.3076923076923" width="6.666666666666686" y="227.5" height="16.5" fill="#8d8db5"></rect><rect x="310" width="26.666666666666686" y="227.5" height="16.5" fill="#8d8db4"></rect><rect x="337.69230769230774" width="32.82051282051282" y="227.5" height="16.5" fill="#8c8cb3"></rect><rect x="371.53846153846155" width="14.358974358974365" y="227.5" height="16.5" fill="#8c8cb3"></rect><rect x="386.9230769230769" width="34.35897435897442" y="227.5" height="16.5" fill="#8b8bb2"></rect><rect x="422.3076923076923" width="34.358974358974365" y="227.5" height="16.5" fill="#8b8bb2"></rect><rect x="70" width="49.74358974358975" y="210" height="16.5" fill="#8b8bb1"></rect><rect x="120.76923076923077" width="5.128205128205138" y="210" height="16.5" fill="#8a8ab1"></rect><rect x="126.92307692307693" width="13.333333333333343" y="210" height="16.5" fill="#8a8ab0"></rect><rect x="141.28205128205127" width="60" y="210" height="16.5" fill="#8989af"></rect><rect x="202.30769230769232" width="60" y="210" height="16.5" fill="#8989af"></rect><rect x="263.33333333333337" width="57.4358974358974" y="210" height="16.5" fill="#8989ae"></rect><rect x="321.7948717948718" width="6.666666666666629" y="210" height="16.5" fill="#8888ae"></rect><rect x="329.4871794871795" width="30.769230769230774" y="210" height="16.5" fill="#8888ad"></rect><rect x="361.28205128205127" width="28.205128205128233" y="210" height="16.5" fill="#8787ad"></rect><rect x="390.5128205128205" width="57.948717948717956" y="210" height="16.5" fill="#8787ac"></rect><rect x="449.4871794871795" width="37.43589743589746" y="210" height="16.5" fill="#8787ab"></rect><rect x="70" width="28.717948717948715" y="192.5" height="16.5" fill="#8686ab"></rect><rect x="99.74358974358975" width="9.230769230769226" y="192.5" height="16.5" fill="#8686aa"></rect><rect x="110" width="58.46153846153845" y="192.5" height="16.5" fill="#8585aa"></rect><rect x="169.4871794871795" width="22.56410256410254" y="192.5" height="16.5" fill="#8585a9"></rect><rect x="193.0769230769231" width="33.333333333333314" y="192.5" height="16.5" fill="#8585a9"></rect><rect x="227.43589743589746" width="30.256410256410277" y="192.5" height="16.5" fill="#8484a8"></rect><rect x="258.71794871794873" width="12.820512820512818" y="192.5" height="16.5" fill="#8484a7"></rect><rect x="272.56410256410254" width="50.25641025641028" y="192.5" height="16.5" fill="#8383a7"></rect><rect x="323.84615384615387" width="50.769230769230774" y="192.5" height="16.5" fill="#8383a6"></rect><rect x="375.64102564102564" width="30.769230769230774" y="192.5" height="16.5" fill="#8383a6"></rect><rect x="407.4358974358975" width="52.82051282051276" y="192.5" height="16.5" fill="#8282a5"></rect><rect x="70" width="45.12820512820514" y="175" height="16.5" fill="#8282a5"></rect><rect x="116.15384615384616" width="43.58974358974356" y="175" height="16.5" fill="#8181a4"></rect><rect x="160.76923076923077" width="58.97435897435898" y="175" height="16.5" fill="#8181a3"></rect><rect x="220.76923076923077" width="31.794871794871796" y="175" height="16.5" fill="#8181a3"></rect><rect x="253.58974358974362" width="19.487179487179475" y="175" height="16.5" fill="#8080a2"></rect><rect x="274.1025641025641" width="24.102564102564145" y="175" height="16.5" fill="#8080a2"></rect><rect x="299.2307692307692" width="13.333333333333314" y="175" height="16.5" fill="#7f7fa1"></rect><rect x="313.5897435897436" width="26.666666666666686" y="175" height="16.5" fill="#7f7fa1"></rect><rect x="341.2820512820513" width="9.743589743589723" y="175" height="16.5" fill="#7e7ea0"></rect><rect x="352.0512820512821" width="42.05128205128199" y="175" height="16.5" fill="#7e7ea0"></rect><rect x="395.12820512820514" width="53.84615384615387" y="175" height="16.5" fill="#7e7e9f"></rect><rect x="70" width="30.769230769230774" y="157.5" height="16.5" fill="#7d7d9e"></rect><rect x="101.7948717948718" width="34.358974358974365" y="157.5" height="16.5" fill="#7d7d9e"></rect><rect x="137.17948717948718" width="9.743589743589752" y="157.5" height="16.5" fill="#7c7c9d"></rect><rect x="147.94871794871796" width="48.20512820512823" y="157.5" height="16.5" fill="#7c7c9d"></rect><rect x="197.17948717948718" width="6.666666666666686" y="157.5" height="16.5" fill="#7c7c9c"></rect><rect x="204.87179487179486" width="40.512820512820525" y="157.5" height="16.5" fill="#7b7b9c"></rect><rect x="246.41025641025644" width="53.84615384615384" y="157.5" height="16.5" fill="#7b7b9b"></rect><rect x="301.28205128205127" width="27.69230769230768" y="157.5" height="16.5" fill="#7a7a9a"></rect><rect x="330" width="50.25641025641028" y="157.5" height="16.5" fill="#7a7a9a"></rect><rect x="381.2820512820513" width="50.25641025641022" y="157.5" height="16.5" fill="#7a7a99"></rect><rect x="70" width="39.48717948717949" y="140" height="16.5" fill="#797999"></rect><rect x="110.51282051282053" width="20.000000000000014" y="140" height="16.5" fill="#797998"></rect><rect x="131.53846153846155" width="56.923076923076906" y="140" height="16.5" fill="#787898"></rect><rect x="189.4871794871795" width="7.179487179487182" y="140" height="16.5" fill="#787897"></rect><rect x="197.69230769230768" width="6.666666666666686" y="140" height="16.5" fill="#787896"></rect><rect x="205.3846153846154" width="20" y="140" height="16.5" fill="#777796"></rect><rect x="226.4102564102564" width="51.28205128205133" y="140" height="16.5" fill="#777795"></rect><rect x="278.71794871794873" width="19.487179487179503" y="140" height="16.5" fill="#767695"></rect><rect x="299.2307692307692" width="17.43589743589746" y="140" height="16.5" fill="#767694"></rect><rect x="317.69230769230774" width="41.025641025640994" y="140" height="16.5" fill="#767694"></rect><rect x="70" width="51.2820512820513" y="122.5" height="16.5" fill="#757593"></rect><rect x="122.30769230769232" width="9.743589743589723" y="122.5" height="16.5" fill="#757592"></rect><rect x="133.0769230769231" width="43.58974358974359" y="122.5" height="16.5" fill="#747492"></rect><rect x="177.69230769230768" width="13.333333333333371" y="122.5" height="16.5" fill="#747491"></rect><rect x="192.05128205128204" width="8.205128205128233" y="122.5" height="16.5" fill="#747491"></rect><rect x="201.28205128205127" width="52.30769230769235" y="122.5" height="16.5" fill="#737390"></rect><rect x="254.61538461538464" width="13.846153846153811" y="122.5" height="16.5" fill="#737390"></rect><rect x="269.4871794871795" width="28.71794871794873" y="122.5" height="16.5" fill="#72728f"></rect><rect x="299.2307692307692" width="13.846153846153868" y="122.5" height="16.5" fill="#72728e"></rect><rect x="314.1025641025641" width="13.333333333333371" y="122.5" height="16.5" fill="#71718e"></rect><rect x="70" width="49.230769230769226" y="105" height="16.5" fill="#71718d"></rect><rect x="120.25641025641025" width="46.66666666666666" y="105" height="16.5" fill="#71718d"></rect><rect x="167.94871794871796" width="18.97435897435895" y="105" height="16.5" fill="#70708c"></rect><rect x="187.94871794871796" width="52.30769230769232" y="105" height="16.5" fill="#70708c"></rect><rect x="241.28205128205127" width="56.92307692307696" y="105" height="16.5" fill="#6f6f8b"></rect><rect x="299.2307692307692" width="27.179487179487182" y="105" height="16.5" fill="#6f6f8a"></rect><rect x="327.43589743589746" width="57.948717948717956" y="105" height="16.5" fill="#6f6f8a"></rect><rect x="386.4102564102564" width="17.435897435897516" y="105" height="16.5" fill="#6e6e89"></rect><rect x="404.8717948717949" width="6.666666666666629" y="105" height="16.5" fill="#6e6e89"></rect><rect x="412.56410256410254" width="13.333333333333371" y="105" height="16.5" fill="#6d6d88"></rect><rect x="70" width="20.51282051282051" y="87.5" height="16.5" fill="#6d6d88"></rect><rect x="91.53846153846155" width="11.794871794871796" y="87.5" height="16.5" fill="#6d6d87"></rect><rect x="104.35897435897436" width="61.53846153846155" y="87.5" height="16.5" fill="#6c6c86"></rect><rect x="166.9230769230769" width="28.205128205128233" y="87.5" height="16.5" fill="#6c6c86"></rect><rect x="196.1538461538462" width="56.92307692307688" y="87.5" height="16.5" fill="#6b6b85"></rect><rect x="254.10256410256412" width="18.461538461538424" y="87.5" height="16.5" fill="#6b6b85"></rect><rect x="273.5897435897436" width="8.717948717948786" y="87.5" height="16.5" fill="#6b6b84"></rect><rect x="283.33333333333337" width="20" y="87.5" height="16.5" fill="#6a6a84"></rect><rect x="304.35897435897436" width="14.358974358974365" y="87.5" height="16.5" fill="#6a6a83"></rect><rect x="319.7435897435897" width="37.43589743589746" y="87.5" height="16.5" fill="#696982"></rect><rect x="70" width="36.41025641025641" y="70" height="16.5" fill="#696982"></rect><rect x="107.43589743589743" width="23.076923076923094" y="70" height="16.5" fill="#696981"></rect><rect x="131.53846153846155" width="44.61538461538464" y="70" height="16.5" fill="#686881"></rect><rect x="177.17948717948718" width="39.4871794871795" y="70" height="16.5" fill="#686880"></rect><rect x="217.69230769230768" width="50.769230769230774" y="70" height="16.5" fill="#676780"></rect><rect x="269.4871794871795" width="56.923076923076906" y="70" height="16.5" fill="#67677f"></rect><rect x="327.43589743589746" width="27.179487179487182" y="70" height="16.5" fill="#66667e"></rect><rect x="355.6410256410257" width="53.84615384615381" y="70" height="16.5" fill="#66667e"></rect><rect x="410.51282051282055" width="36.41025641025635" y="70" height="16.5" fill="#66667d"></rect><rect x="447.948717948718" width="50.76923076923072" y="70" height="16.5" fill="#65657d"></rect><rect x="70" width="7.179487179487182" y="52.5" height="16.5" fill="#65657c"></rect><rect x="78.2051282051282" width="31.794871794871796" y="52.5" height="16.5" fill="#64647c"></rect><rect x="111.02564102564102" width="14.358974358974365" y="52.5" height="16.5" fill="#64647b"></rect><rect x="126.41025641025641" width="21.025641025641022" y="52.5" height="16.5" fill="#64647a"></rect><rect x="148.46153846153845" width="31.2820512820513" y="52.5" height="16.5" fill="#63637a"></rect><rect x="180.76923076923077" width="37.948717948717956" y="52.5" height="16.5" fill="#636379"></rect><rect x="219.74358974358975" width="29.230769230769226" y="52.5" height="16.5" fill="#626279"></rect><rect x="250.00000000000003" width="45.12820512820511" y="52.5" height="16.5" fill="#626278"></rect><rect x="296.1538461538462" width="8.205128205128176" y="52.5" height="16.5" fill="#626278"></rect><rect x="305.3846153846154" width="57.4358974358974" y="52.5" height="16.5" fill="#616177"></rect><rect x="70" width="6.666666666666671" y="35" height="16.5" fill="#616177"></rect><rect x="77.69230769230768" width="18.461538461538467" y="35" height="16.5" fill="#606076"></rect><rect x="97.17948717948718" width="10.256410256410248" y="35" height="16.5" fill="#606075"></rect><rect x="108.46153846153845" width="22.051282051282058" y="35" height="16.5" fill="#606075"></rect><rect x="131.53846153846155" width="52.82051282051282" y="35" height="16.5" fill="#5f5f74"></rect><rect x="185.38461538461542" width="51.79487179487177" y="35" height="16.5" fill="#5f5f74"></rect><rect x="238.2051282051282" width="43.58974358974362" y="35" height="16.5" fill="#5e5e73"></rect><rect x="282.8205128205128" width="57.43589743589746" y="35" height="16.5" fill="#5e5e73"></rect><rect x="341.2820512820513" width="61.025641025640994" y="35" height="16.5" fill="#5e5e72"></rect><rect x="403.33333333333337" width="23.076923076923094" y="35" height="16.5" fill="#5d5d71"></rect><rect x="70" width="35.38461538461539" y="17.5" height="16.5" fill="#5d5d71"></rect><rect x="106.41025641025641" width="20.512820512820525" y="17.5" height="16.5" fill="#5c5c70"></rect><rect x="127.94871794871796" width="28.71794871794873" y="17.5" height="16.5" fill="#5c5c70"></rect><rect x="157.69230769230768" width="36.92307692307696" y="17.5" height="16.5" fill="#5c5c6f"></rect><rect x="195.64102564102564" width="22.051282051282044" y="17.5" height="16.5" fill="#5b5b6f"></rect><rect x="218.71794871794873" width="26.666666666666657" y="17.5" height="16.5" fill="#5b5b6e"></rect><rect x="246.41025641025644" width="29.230769230769198" y="17.5" height="16.5" fill="#5a5a6d"></rect><rect x="276.6666666666667" width="25.12820512820514" y="17.5" height="16.5" fill="#5a5a6d"></rect><rect x="302.8205128205128" width="42.0512820512821" y="17.5" height="16.5" fill="#59596c"></rect><rect x="345.8974358974359" width="6.153846153846189" y="17.5" height="16.5" fill="#59596c"></rect><rect x="70" width="21.025641025641022" y="0" height="16.5" fill="#59596b"></rect><rect x="92.05128205128204" width="58.46153846153847" y="0" height="16.5" fill="#58586b"></rect><rect x="151.53846153846155" width="38.46153846153845" y="0" height="16.5" fill="#58586a"></rect><rect x="191.02564102564105" width="38.46153846153845" y="0" height="16.5" fill="#575769"></rect><rect x="230.51282051282053" width="29.74358974358975" y="0" height="16.5" fill="#575769"></rect><rect x="261.28205128205127" width="23.076923076923094" y="0" height="16.5" fill="#575768"></rect><rect x="285.38461538461536" width="53.84615384615387" y="0" height="16.5" fill="#565668"></rect><rect x="340.2564102564103" width="9.743589743589723" y="0" height="16.5" fill="#565667"></rect><rect x="351.02564102564105" width="40.5128205128205" y="0" height="16.5" fill="#555567"></rect><rect x="392.5641025641026" width="50.25641025641028" y="0" height="16.5" fill="#555566"></rect><text x="30" y="340.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0000</text><text x="30" y="323.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0001</text><text x="30" y="305.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0002</text><text x="30" y="288.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0003</text><text x="30" y="270.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0004</text><text x="30" y="253.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0005</text><text x="30" y="235.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0006</text><text x="30" y="218.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0007</text><text x="30" y="200.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0008</text><text x="30" y="183.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0009</text><text x="30" y="165.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0010</text><text x="30" y="148.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0011</text><text x="30" y="130.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0012</text><text x="30" y="113.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0013</text><text x="30" y="95.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0014</text><text x="30" y="78.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0015</text><text x="30" y="60.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0016</text><text x="30" y="43.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0017</text><text x="30" y="25.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0018</text><text x="30" y="8.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0019</text><g class="x axis" transform="translate(0,350)"><g class="tick major" style="opacity: 1;" transform="translate(223.05836575875486,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:05</text></g><g class="tick major" style="opacity: 1;" transform="translate(377.14396887159535,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:10</text></g><g class="tick major" style="opacity: 1;" transform="translate(531.2295719844358,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:15</text></g><g class="tick major" style="opacity: 1;" transform="translate(685.3151750972763,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:20</text></g><path class="domain" d="M70,6V0H730V6"></path></g></g></svg>
+
+
+
+
+</div>
+</section>
+
+<section class="slide">
+<div>
+<h2> Scheduling: <strong>Dynamic</strong></h2>
+
+<svg class='htcsvg' width="800" height="400"><g transform="translate(50,20)"><rect x="70" width="42.56410256410257" y="332.5" height="16.5" fill="#aaaadd"></rect><rect x="70" width="57.43589743589743" y="315" height="16.5" fill="#aaaadc"></rect><rect x="70" width="7.179487179487182" y="297.5" height="16.5" fill="#a9a9dc"></rect><rect x="70" width="34.358974358974365" y="280" height="16.5" fill="#a9a9db"></rect><rect x="70" width="58.46153846153845" y="262.5" height="16.5" fill="#a8a8db"></rect><rect x="70" width="38.97435897435898" y="245" height="16.5" fill="#a8a8da"></rect><rect x="70" width="6.15384615384616" y="227.5" height="16.5" fill="#a8a8da"></rect><rect x="70" width="11.794871794871796" y="210" height="16.5" fill="#a7a7d9"></rect><rect x="70" width="34.358974358974365" y="192.5" height="16.5" fill="#a7a7d8"></rect><rect x="70" width="31.794871794871796" y="175" height="16.5" fill="#a6a6d8"></rect><rect x="70" width="59.4871794871795" y="157.5" height="16.5" fill="#a6a6d7"></rect><rect x="70" width="7.179487179487182" y="140" height="16.5" fill="#a6a6d7"></rect><rect x="70" width="54.358974358974365" y="122.5" height="16.5" fill="#a5a5d6"></rect><rect x="70" width="7.692307692307693" y="105" height="16.5" fill="#a5a5d6"></rect><rect x="70" width="45.641025641025635" y="87.5" height="16.5" fill="#a4a4d5"></rect><rect x="70" width="29.74358974358975" y="70" height="16.5" fill="#a4a4d4"></rect><rect x="70" width="5.641025641025635" y="52.5" height="16.5" fill="#a3a3d4"></rect><rect x="70" width="50.25641025641025" y="35" height="16.5" fill="#a3a3d3"></rect><rect x="70" width="59.4871794871795" y="17.5" height="16.5" fill="#a3a3d3"></rect><rect x="70" width="32.82051282051282" y="0" height="16.5" fill="#a2a2d2"></rect><rect x="76.66666666666669" width="30.76923076923076" y="52.5" height="16.5" fill="#a2a2d2"></rect><rect x="77.17948717948718" width="30.25641025641025" y="227.5" height="16.5" fill="#a1a1d1"></rect><rect x="78.2051282051282" width="32.82051282051282" y="297.5" height="16.5" fill="#a1a1d0"></rect><rect x="78.2051282051282" width="39.4871794871795" y="140" height="16.5" fill="#a1a1d0"></rect><rect x="78.71794871794872" width="10.256410256410263" y="105" height="16.5" fill="#a0a0cf"></rect><rect x="82.82051282051282" width="34.87179487179489" y="210" height="16.5" fill="#a0a0cf"></rect><rect x="90" width="8.205128205128204" y="105" height="16.5" fill="#9f9fce"></rect><rect x="99.23076923076923" width="34.87179487179486" y="105" height="16.5" fill="#9f9fce"></rect><rect x="100.76923076923077" width="32.30769230769232" y="70" height="16.5" fill="#9f9fcd"></rect><rect x="102.82051282051282" width="22.051282051282058" y="175" height="16.5" fill="#9e9ecc"></rect><rect x="103.84615384615384" width="20.512820512820525" y="0" height="16.5" fill="#9e9ecc"></rect><rect x="105.38461538461539" width="57.43589743589743" y="192.5" height="16.5" fill="#9d9dcb"></rect><rect x="105.38461538461536" width="21.025641025641022" y="280" height="16.5" fill="#9d9dcb"></rect><rect x="108.46153846153847" width="49.743589743589766" y="227.5" height="16.5" fill="#9d9dca"></rect><rect x="108.46153846153847" width="52.30769230769231" y="52.5" height="16.5" fill="#9c9cca"></rect><rect x="110" width="47.69230769230768" y="245" height="16.5" fill="#9c9cc9"></rect><rect x="112.05128205128204" width="49.230769230769226" y="297.5" height="16.5" fill="#9b9bc9"></rect><rect x="113.58974358974359" width="17.43589743589743" y="332.5" height="16.5" fill="#9b9bc8"></rect><rect x="116.66666666666666" width="60.00000000000003" y="87.5" height="16.5" fill="#9b9bc7"></rect><rect x="118.71794871794873" width="6.153846153846146" y="210" height="16.5" fill="#9a9ac7"></rect><rect x="118.71794871794873" width="11.794871794871796" y="140" height="16.5" fill="#9a9ac6"></rect><rect x="121.2820512820513" width="52.30769230769229" y="35" height="16.5" fill="#9999c6"></rect><rect x="125.38461538461536" width="60.00000000000003" y="0" height="16.5" fill="#9999c5"></rect><rect x="125.38461538461536" width="20" y="122.5" height="16.5" fill="#9999c5"></rect><rect x="125.89743589743591" width="5.641025641025635" y="210" height="16.5" fill="#9898c4"></rect><rect x="125.89743589743591" width="19.487179487179475" y="175" height="16.5" fill="#9898c3"></rect><rect x="127.43589743589743" width="5.128205128205138" y="280" height="16.5" fill="#9797c3"></rect><rect x="128.46153846153845" width="9.743589743589752" y="315" height="16.5" fill="#9797c2"></rect><rect x="129.4871794871795" width="45.641025641025635" y="262.5" height="16.5" fill="#9696c2"></rect><rect x="130.51282051282053" width="13.333333333333314" y="157.5" height="16.5" fill="#9696c1"></rect><rect x="130.51282051282053" width="24.615384615384613" y="17.5" height="16.5" fill="#9696c1"></rect><rect x="131.53846153846155" width="29.743589743589723" y="140" height="16.5" fill="#9595c0"></rect><rect x="132.05128205128204" width="9.743589743589752" y="332.5" height="16.5" fill="#9595bf"></rect><rect x="132.56410256410257" width="27.692307692307708" y="210" height="16.5" fill="#9494bf"></rect><rect x="133.5897435897436" width="53.333333333333314" y="280" height="16.5" fill="#9494be"></rect><rect x="134.1025641025641" width="52.82051282051282" y="70" height="16.5" fill="#9494be"></rect><rect x="135.12820512820514" width="21.025641025641022" y="105" height="16.5" fill="#9393bd"></rect><rect x="139.23076923076923" width="38.974358974359006" y="315" height="16.5" fill="#9393bd"></rect><rect x="142.82051282051282" width="47.17948717948718" y="332.5" height="16.5" fill="#9292bc"></rect><rect x="144.87179487179486" width="34.87179487179489" y="157.5" height="16.5" fill="#9292bb"></rect><rect x="146.4102564102564" width="12.30769230769232" y="175" height="16.5" fill="#9292bb"></rect><rect x="146.4102564102564" width="11.28205128205127" y="122.5" height="16.5" fill="#9191ba"></rect><rect x="156.15384615384616" width="31.794871794871796" y="17.5" height="16.5" fill="#9191ba"></rect><rect x="157.17948717948718" width="45.641025641025635" y="105" height="16.5" fill="#9090b9"></rect><rect x="158.71794871794873" width="8.205128205128176" y="245" height="16.5" fill="#9090b9"></rect><rect x="158.71794871794873" width="54.87179487179486" y="122.5" height="16.5" fill="#9090b8"></rect><rect x="159.23076923076923" width="43.58974358974359" y="227.5" height="16.5" fill="#8f8fb7"></rect><rect x="159.74358974358972" width="50.25641025641028" y="175" height="16.5" fill="#8f8fb7"></rect><rect x="161.28205128205127" width="53.33333333333337" y="210" height="16.5" fill="#8e8eb6"></rect><rect x="161.79487179487182" width="52.307692307692264" y="52.5" height="16.5" fill="#8e8eb6"></rect><rect x="162.30769230769232" width="27.69230769230768" y="297.5" height="16.5" fill="#8e8eb5"></rect><rect x="162.30769230769232" width="7.179487179487182" y="140" height="16.5" fill="#8d8db5"></rect><rect x="163.84615384615387" width="26.66666666666663" y="192.5" height="16.5" fill="#8d8db4"></rect><rect x="167.94871794871796" width="32.82051282051282" y="245" height="16.5" fill="#8c8cb3"></rect><rect x="170.5128205128205" width="13.846153846153868" y="140" height="16.5" fill="#8c8cb3"></rect><rect x="174.61538461538464" width="34.358974358974336" y="35" height="16.5" fill="#8b8bb2"></rect><rect x="176.1538461538462" width="34.358974358974336" y="262.5" height="16.5" fill="#8b8bb2"></rect><rect x="177.69230769230768" width="49.74358974358978" y="87.5" height="16.5" fill="#8b8bb1"></rect><rect x="179.23076923076923" width="5.128205128205138" y="315" height="16.5" fill="#8a8ab1"></rect><rect x="180.76923076923077" width="13.333333333333314" y="157.5" height="16.5" fill="#8a8ab0"></rect><rect x="185.38461538461542" width="59.99999999999997" y="140" height="16.5" fill="#8989af"></rect><rect x="185.38461538461542" width="60.51282051282047" y="315" height="16.5" fill="#8989af"></rect><rect x="186.4102564102564" width="57.43589743589746" y="0" height="16.5" fill="#8989ae"></rect><rect x="187.94871794871796" width="6.666666666666686" y="70" height="16.5" fill="#8888ae"></rect><rect x="187.94871794871796" width="31.28205128205127" y="280" height="16.5" fill="#8888ad"></rect><rect x="188.974358974359" width="28.205128205128176" y="17.5" height="16.5" fill="#8787ad"></rect><rect x="191.02564102564105" width="57.94871794871793" y="297.5" height="16.5" fill="#8787ac"></rect><rect x="191.02564102564105" width="37.4358974358974" y="332.5" height="16.5" fill="#8787ab"></rect><rect x="191.53846153846155" width="28.71794871794873" y="192.5" height="16.5" fill="#8686ab"></rect><rect x="195.12820512820514" width="9.230769230769226" y="157.5" height="16.5" fill="#8686aa"></rect><rect x="195.64102564102564" width="58.46153846153848" y="70" height="16.5" fill="#8585aa"></rect><rect x="201.7948717948718" width="22.56410256410257" y="245" height="16.5" fill="#8585a9"></rect><rect x="203.84615384615387" width="33.333333333333314" y="105" height="16.5" fill="#8585a9"></rect><rect x="203.84615384615387" width="30.25641025641025" y="227.5" height="16.5" fill="#8484a8"></rect><rect x="205.3846153846154" width="12.820512820512818" y="157.5" height="16.5" fill="#8484a7"></rect><rect x="210" width="50.76923076923083" y="35" height="16.5" fill="#8383a7"></rect><rect x="211.02564102564105" width="50.769230769230774" y="175" height="16.5" fill="#8383a6"></rect><rect x="211.53846153846155" width="31.2820512820513" y="262.5" height="16.5" fill="#8383a6"></rect><rect x="214.61538461538464" width="52.307692307692264" y="122.5" height="16.5" fill="#8282a5"></rect><rect x="215.12820512820514" width="45.64102564102569" y="52.5" height="16.5" fill="#8282a5"></rect><rect x="215.64102564102564" width="44.10256410256409" y="210" height="16.5" fill="#8181a4"></rect><rect x="218.2051282051282" width="58.46153846153848" y="17.5" height="16.5" fill="#8181a3"></rect><rect x="219.23076923076923" width="31.794871794871824" y="157.5" height="16.5" fill="#8181a3"></rect><rect x="220.25641025641028" width="19.487179487179475" y="280" height="16.5" fill="#8080a2"></rect><rect x="221.28205128205127" width="24.102564102564116" y="192.5" height="16.5" fill="#8080a2"></rect><rect x="225.3846153846154" width="13.333333333333371" y="245" height="16.5" fill="#7f7fa1"></rect><rect x="228.46153846153845" width="26.666666666666686" y="87.5" height="16.5" fill="#7f7fa1"></rect><rect x="229.4871794871795" width="9.743589743589752" y="332.5" height="16.5" fill="#7e7ea0"></rect><rect x="235.12820512820517" width="42.051282051282016" y="227.5" height="16.5" fill="#7e7ea0"></rect><rect x="238.2051282051282" width="53.84615384615384" y="105" height="16.5" fill="#7e7e9f"></rect><rect x="239.74358974358975" width="31.282051282051242" y="245" height="16.5" fill="#7d7d9e"></rect><rect x="240.25641025641028" width="33.84615384615381" y="332.5" height="16.5" fill="#7d7d9e"></rect><rect x="240.76923076923077" width="10.256410256410277" y="280" height="16.5" fill="#7c7c9d"></rect><rect x="243.84615384615387" width="48.205128205128176" y="262.5" height="16.5" fill="#7c7c9d"></rect><rect x="244.87179487179486" width="6.666666666666686" y="0" height="16.5" fill="#7c7c9c"></rect><rect x="246.41025641025644" width="40.00000000000003" y="140" height="16.5" fill="#7b7b9c"></rect><rect x="246.41025641025644" width="53.84615384615384" y="192.5" height="16.5" fill="#7b7b9b"></rect><rect x="246.92307692307693" width="27.692307692307708" y="315" height="16.5" fill="#7a7a9a"></rect><rect x="250.00000000000003" width="50.25641025641025" y="297.5" height="16.5" fill="#7a7a9a"></rect><rect x="252.05128205128204" width="50.25641025641028" y="157.5" height="16.5" fill="#7a7a99"></rect><rect x="252.05128205128204" width="40" y="280" height="16.5" fill="#797999"></rect><rect x="252.56410256410257" width="19.99999999999997" y="0" height="16.5" fill="#797998"></rect><rect x="255.12820512820514" width="56.92307692307696" y="70" height="16.5" fill="#787898"></rect><rect x="256.1538461538462" width="7.179487179487182" y="87.5" height="16.5" fill="#787897"></rect><rect x="260.76923076923083" width="6.153846153846075" y="210" height="16.5" fill="#787896"></rect><rect x="261.7948717948718" width="20" y="52.5" height="16.5" fill="#777796"></rect><rect x="261.7948717948718" width="50.76923076923072" y="35" height="16.5" fill="#777795"></rect><rect x="262.8205128205128" width="19.48717948717956" y="175" height="16.5" fill="#767695"></rect><rect x="264.35897435897436" width="17.43589743589746" y="87.5" height="16.5" fill="#767694"></rect><rect x="267.948717948718" width="41.53846153846149" y="122.5" height="16.5" fill="#767694"></rect><rect x="267.948717948718" width="51.79487179487171" y="210" height="16.5" fill="#757593"></rect><rect x="272.0512820512821" width="9.743589743589723" y="245" height="16.5" fill="#757592"></rect><rect x="273.5897435897436" width="43.58974358974359" y="0" height="16.5" fill="#747492"></rect><rect x="275.1282051282052" width="13.333333333333258" y="332.5" height="16.5" fill="#747491"></rect><rect x="275.64102564102564" width="8.205128205128233" y="315" height="16.5" fill="#747491"></rect><rect x="277.69230769230774" width="52.307692307692264" y="17.5" height="16.5" fill="#737390"></rect><rect x="278.2051282051282" width="13.846153846153868" y="227.5" height="16.5" fill="#737390"></rect><rect x="282.8205128205128" width="28.71794871794873" y="87.5" height="16.5" fill="#72728f"></rect><rect x="282.8205128205128" width="13.846153846153811" y="245" height="16.5" fill="#72728e"></rect><rect x="282.8205128205128" width="13.333333333333371" y="52.5" height="16.5" fill="#71718e"></rect><rect x="283.33333333333337" width="49.23076923076917" y="175" height="16.5" fill="#71718d"></rect><rect x="284.87179487179486" width="46.666666666666686" y="315" height="16.5" fill="#71718d"></rect><rect x="287.43589743589746" width="19.487179487179446" y="140" height="16.5" fill="#70708c"></rect><rect x="289.4871794871795" width="52.30769230769232" y="332.5" height="16.5" fill="#70708c"></rect><rect x="293.0769230769231" width="56.923076923076906" y="262.5" height="16.5" fill="#6f6f8b"></rect><rect x="293.0769230769231" width="26.66666666666663" y="280" height="16.5" fill="#6f6f8a"></rect><rect x="293.0769230769231" width="57.948717948717956" y="105" height="16.5" fill="#6f6f8a"></rect><rect x="293.0769230769231" width="17.43589743589746" y="227.5" height="16.5" fill="#6e6e89"></rect><rect x="297.1794871794872" width="6.666666666666629" y="52.5" height="16.5" fill="#6e6e89"></rect><rect x="297.69230769230774" width="13.846153846153811" y="245" height="16.5" fill="#6d6d88"></rect><rect x="301.28205128205127" width="21.025641025641107" y="297.5" height="16.5" fill="#6d6d88"></rect><rect x="301.28205128205127" width="11.794871794871824" y="192.5" height="16.5" fill="#6d6d87"></rect><rect x="303.33333333333337" width="61.53846153846149" y="157.5" height="16.5" fill="#6c6c86"></rect><rect x="304.8717948717949" width="28.205128205128176" y="52.5" height="16.5" fill="#6c6c86"></rect><rect x="307.948717948718" width="56.92307692307685" y="140" height="16.5" fill="#6b6b85"></rect><rect x="310.51282051282055" width="18.461538461538396" y="122.5" height="16.5" fill="#6b6b85"></rect><rect x="311.53846153846155" width="8.71794871794873" y="227.5" height="16.5" fill="#6b6b84"></rect><rect x="312.56410256410254" width="19.487179487179503" y="245" height="16.5" fill="#6a6a84"></rect><rect x="312.56410256410254" width="14.358974358974422" y="87.5" height="16.5" fill="#6a6a83"></rect><rect x="313.0769230769231" width="37.948717948717956" y="70" height="16.5" fill="#696982"></rect><rect x="313.5897435897436" width="36.923076923076906" y="35" height="16.5" fill="#696982"></rect><rect x="314.1025641025641" width="23.076923076923094" y="192.5" height="16.5" fill="#696981"></rect><rect x="318.2051282051282" width="44.61538461538464" y="0" height="16.5" fill="#686881"></rect><rect x="320.7692307692308" width="39.4871794871795" y="210" height="16.5" fill="#686880"></rect><rect x="320.7692307692308" width="50.25641025641028" y="280" height="16.5" fill="#676780"></rect><rect x="321.28205128205127" width="57.43589743589746" y="227.5" height="16.5" fill="#67677f"></rect><rect x="323.33333333333337" width="26.66666666666663" y="297.5" height="16.5" fill="#66667e"></rect><rect x="327.94871794871796" width="53.84615384615387" y="87.5" height="16.5" fill="#66667e"></rect><rect x="330" width="36.41025641025641" y="122.5" height="16.5" fill="#66667d"></rect><rect x="331.02564102564105" width="50.769230769230774" y="17.5" height="16.5" fill="#65657d"></rect><rect x="332.56410256410254" width="7.179487179487182" y="315" height="16.5" fill="#65657c"></rect><rect x="333.0769230769231" width="32.307692307692264" y="245" height="16.5" fill="#64647c"></rect><rect x="333.5897435897436" width="14.358974358974365" y="175" height="16.5" fill="#64647b"></rect><rect x="334.10256410256414" width="21.025641025640994" y="52.5" height="16.5" fill="#64647a"></rect><rect x="338.20512820512823" width="31.794871794871767" y="192.5" height="16.5" fill="#63637a"></rect><rect x="340.7692307692308" width="37.948717948717956" y="315" height="16.5" fill="#636379"></rect><rect x="342.8205128205128" width="29.230769230769226" y="332.5" height="16.5" fill="#626279"></rect><rect x="348.974358974359" width="45.12820512820508" y="175" height="16.5" fill="#626278"></rect><rect x="351.02564102564105" width="7.692307692307679" y="262.5" height="16.5" fill="#626278"></rect><rect x="351.02564102564105" width="57.9487179487179" y="297.5" height="16.5" fill="#616177"></rect><rect x="351.53846153846155" width="6.666666666666629" y="35" height="16.5" fill="#616177"></rect><rect x="352.0512820512821" width="18.461538461538453" y="70" height="16.5" fill="#606076"></rect><rect x="352.0512820512821" width="9.743589743589666" y="105" height="16.5" fill="#606075"></rect><rect x="356.1538461538462" width="22.051282051282044" y="52.5" height="16.5" fill="#606075"></rect><rect x="359.2307692307693" width="53.33333333333326" y="35" height="16.5" fill="#5f5f74"></rect><rect x="359.7435897435898" width="51.79487179487177" y="262.5" height="16.5" fill="#5f5f74"></rect><rect x="361.28205128205127" width="44.10256410256409" y="210" height="16.5" fill="#5e5e73"></rect><rect x="362.8205128205128" width="57.43589743589746" y="105" height="16.5" fill="#5e5e73"></rect><rect x="363.84615384615387" width="61.02564102564105" y="0" height="16.5" fill="#5e5e72"></rect><rect x="365.8974358974359" width="23.076923076923094" y="157.5" height="16.5" fill="#5d5d71"></rect><rect x="365.8974358974359" width="35.384615384615415" y="140" height="16.5" fill="#5d5d71"></rect><rect x="366.4102564102564" width="21.02564102564105" y="245" height="16.5" fill="#5c5c70"></rect><rect x="367.43589743589746" width="28.205128205128233" y="122.5" height="16.5" fill="#5c5c70"></rect><rect x="371.02564102564105" width="36.923076923076906" y="192.5" height="16.5" fill="#5c5c6f"></rect><rect x="371.53846153846155" width="22.56410256410254" y="70" height="16.5" fill="#5b5b6f"></rect><rect x="372.05128205128204" width="26.666666666666686" y="280" height="16.5" fill="#5b5b6e"></rect><rect x="373.0769230769231" width="28.717948717948673" y="332.5" height="16.5" fill="#5a5a6d"></rect><rect x="379.2307692307692" width="25.12820512820514" y="52.5" height="16.5" fill="#5a5a6d"></rect><rect x="379.7435897435897" width="41.538461538461604" y="315" height="16.5" fill="#59596c"></rect><rect x="379.7435897435897" width="6.153846153846189" y="227.5" height="16.5" fill="#59596c"></rect><rect x="382.8205128205128" width="21.538461538461547" y="17.5" height="16.5" fill="#59596b"></rect><rect x="382.8205128205128" width="58.46153846153845" y="87.5" height="16.5" fill="#58586b"></rect><rect x="386.9230769230769" width="38.46153846153845" y="227.5" height="16.5" fill="#58586a"></rect><rect x="388.4615384615385" width="38.461538461538396" y="245" height="16.5" fill="#575769"></rect><rect x="390" width="29.743589743589723" y="157.5" height="16.5" fill="#575769"></rect><rect x="395.12820512820514" width="23.076923076923094" y="175" height="16.5" fill="#575768"></rect><rect x="395.12820512820514" width="53.84615384615387" y="70" height="16.5" fill="#565668"></rect><rect x="396.6666666666667" width="9.743589743589723" y="122.5" height="16.5" fill="#565667"></rect><rect x="399.7435897435898" width="41.02564102564105" y="280" height="16.5" fill="#555567"></rect><rect x="402.3076923076923" width="50.25641025641028" y="140" height="16.5" fill="#555566"></rect><text x="30" y="340.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0000</text><text x="30" y="323.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0001</text><text x="30" y="305.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0002</text><text x="30" y="288.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0003</text><text x="30" y="270.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0004</text><text x="30" y="253.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0005</text><text x="30" y="235.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0006</text><text x="30" y="218.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0007</text><text x="30" y="200.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0008</text><text x="30" y="183.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0009</text><text x="30" y="165.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0010</text><text x="30" y="148.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0011</text><text x="30" y="130.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0012</text><text x="30" y="113.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0013</text><text x="30" y="95.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0014</text><text x="30" y="78.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0015</text><text x="30" y="60.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0016</text><text x="30" y="43.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0017</text><text x="30" y="25.75" font-family="sans-serif" font-size="11px" text-anchor="middle">node0018</text><text x="30" y="8.25" font-family="sans-serif" font-size="11px" text-anchor="middle">node0019</text><g class="x axis" transform="translate(0,350)"><g class="tick major" style="opacity: 1;" transform="translate(223.05836575875486,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:05</text></g><g class="tick major" style="opacity: 1;" transform="translate(377.14396887159535,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:10</text></g><g class="tick major" style="opacity: 1;" transform="translate(531.2295719844358,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:15</text></g><g class="tick major" style="opacity: 1;" transform="translate(685.3151750972763,0)"><line y2="6" x2="0"></line><text y="9" x="0" dy=".71em" style="text-anchor: middle;">07:20</text></g><path class="domain" d="M70,6V0H730V6"></path></g></g></svg>
+
+
+</div>
+</section>
+
+
+<section class="slide">
+<div>
+
+<img src="img/vw.png" style="height=300px margin:10px auto;display:block;"  alt="some_text">		
+
+</div>
+</section>
+
+<section class="slide">
+<div>
+<h2><strong>Tenacious</strong> Robustness Test</h2>
+
+<pre class="prettyprint"><code>@require('time','socket','random',
+'IPython.parallel.error.KernelError')
+def simulation(x):
+
+   time.sleep(5)
+   if random.random() < 0.3:
+      raise KernelError
+   return {'task':x, 
+           'host' :socket.gethostname()}
+</code></pre>	
+
+<p>Launch 10 nodes</p>
+<p>Run <strong>several</strong> tasks</p>
+<p>At some point, <strong>kill a node</strong></p>
+
+</div>
+</section>
+
+
+<section class="slide">
+<div>
+<h2>mpi4py</h2>
+<pre class="prettyprint"><code>from mpi4py import MPI
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+if rank == 0:
+   
+   data = {'key1' : [7, 2.72, 3.2],
+           'key2' : ( 'abc', 'xyz')}
+else:
+   data = None
+   
+data = comm.bcast(data, root=0)
+</code></pre>	
+
+</div>
+</section>
+
+<section class="slide">
+<div>
+<h2>mpi4py <strong>Scaling</strong></h2>
+<img src="img/scaling.png" style="margin:20px auto; height:300px; display:block;"  alt="some_text">		
+<!-- <p class='author'> Wes McKinney</p> -->
+
+<p>3 second jobs</p>
+<table class="table table-bordered">
+	<tr class="success">
+	    <td>2048</td>
+	    <td>92</td>
+	</tr>
+	<tr class="success">
+	    <td>4096</td>
+	    <td>87%</td>
+	</tr>
+	<tr class="error">
+	    <td>8192</td>
+	    <td>67%</td>
+	</tr>
+</table>
+
+</div>
+</section>
+
+
+<section class="slide sub">
+<div>
+	
+<img src="img/data_analysis.png" style="margin-top:150px; margin-bottom: 20px; margin-left:auto; margin-right: auto;display:block;"  alt="some_text">		
+<!-- <p class='author'> Wes McKinney</p> -->
+	
+<h2 style="margin-top:20px;">Data Analysis</h2>
+</div>
+</section>
+
+<section class="slide">
+<div>
+<iframe src="http://127.0.0.1:8888"></iframe>
+</div>
+</section>
+
+
+<section class="slide">
+<div>
+<h2>Conclusions</h2>
+
+<p>Python makes <strong>supercomputing accessible</strong>
+
+<p>Combine libraries to achieve the task at hand.</p>
+<ul>
+	<li> Simulate and analyze </li>	
+	<li> Share methods in a notebook </li>
+	<li> Push your data to a database </li>
+	<li> Share it on the web </li>
+	<li> In <strong> parallel </strong>		</li>
+</ul>			
+
+</div>
+</section>
+
+
+<section class="slide">
+<div>
+<h2>References</h2>
+<ul>
+<li><a href="http://www.springer.com/mathematics/computational+science+%26+engineering/book/978-3-540-73915-9">Python Scripting for Computational Science</a></li>
+<li><a href="http://www.hpcwire.com/hpcwire/2010-11-17/python_snakes_its_way_into_hpc.html">Python Snakes Its Way Into HPC</a></li>
+<li>
+<a href="http://andy.terrel.us/blog/2012/09/27/starting-with-python/">Andy Terrel: Getting Started with Python in HPC</a>
+</li>
+<li>
+<a href="http://docs.python.org/2/tutorial/">Python Tutorial</a>
+</li>
+<li><a href="http://www.greenteapress.com/thinkpython/">Think Python</a></li>
+<li><a href="http://shop.oreilly.com/product/0636920023784.do">Data Analysis with Python</a></li>
+</ul>
+
+<br>
+<p><strong>slides</strong> https://github.com/mlunacek</p>
+</div>
+</section>
+	
+
+	<!-- <div class="progress"><div></div></div> -->
+	<script src="js/shower.min.js"></script>
+</body>
+</html>
